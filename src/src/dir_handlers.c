@@ -12,7 +12,7 @@
 
 #include "../inc/ft_ls.h"
 
-t_dirs *new_dir(char *path, int status, int is_default, char *subdir_name, t_flags flags)
+t_dirs *new_dir(char *path, int status, int is_default, char *subdir_name, t_flg flags)
 {
 	t_dirs *dir;
 	DIR	*dr;
@@ -24,7 +24,7 @@ t_dirs *new_dir(char *path, int status, int is_default, char *subdir_name, t_fla
 	MCH((dir->self->name = ft_strdup(path)));
 	if (status == ISLK)
 	{
-		if (!(dr = opendir(dir->name)) || flags & LONG_LISTING_FLAG)
+		if (!(dr = opendir(dir->name)) || flags & LLFG)
 			status = ISND;
 		else
 			status = ISDR;
@@ -88,7 +88,7 @@ void reverse_dirs(t_dirs **dirs)
 	*dirs = prev;
 }
 
-void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flags flags) {
+void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flg flags) {
 	t_dirs *new;
 	int status;
 	struct stat f;
@@ -113,7 +113,7 @@ void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flags flags) {
 		add_dir(dirs, new);
 }
 
-t_dirs *dir_handler(char **args, t_flags flags) {
+t_dirs *dir_handler(char **args, t_flg flags) {
 	int i;
 	t_dirs *dirs;
 	t_etarget target;
@@ -133,7 +133,7 @@ t_dirs *dir_handler(char **args, t_flags flags) {
 			set_dir(args[i], &dirs, NULL, flags);
 	}
 
-	if (flags & FILE_SIZE_SORT)
+	if (flags & FISS)
 	{
 		tmp = dirs;
 		while (tmp)

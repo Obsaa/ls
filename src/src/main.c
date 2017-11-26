@@ -14,7 +14,7 @@
 
 int main(int ac, char **av)
 {
-  t_flags flags;
+  t_flg flags;
   int     i;
   t_dirs *dirs;
 

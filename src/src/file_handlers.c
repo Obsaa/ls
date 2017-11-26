@@ -13,7 +13,7 @@
 #include "../inc/ft_ls.h"
 #include <stdio.h>
 
-void file_date_handler(t_date *date, struct stat f, t_flags flags) {
+void file_date_handler(t_dt *date, struct stat f, t_flg flags) {
   char buff[200];
   unsigned long long t;
 
@@ -26,11 +26,11 @@ void file_date_handler(t_date *date, struct stat f, t_flags flags) {
   date->birthtv_sec = (unsigned long long)f.st_birthtimespec.tv_sec;
   date->birthtv_nsec = (unsigned long long)f.st_birthtimespec.tv_nsec;
   t = date->mtv_sec;
-  if (flags & CREATION_DATE_SORT)
+  if (flags & CRDS)
     t = date->birthtv_sec;
-  if (flags & LAST_ACCESS_DATE_SORT)
+  if (flags & LADS)
     t = date->atv_sec;
-  if (flags & LAST_STATUS_CHANGE_SORT)
+  if (flags & LSCS)
   t = date->ctv_sec;
   strftime(buff, 200, "%b", localtime((const long *)&t));
   MCH((date->month = ft_strdup(buff)));
@@ -120,7 +120,7 @@ void file_permission_handler(t_files **curr_file, char *file_path, struct stat f
     (*curr_file)->modes[10] = ' ';
 }
 
-void get_file_info(t_files **curr_file, t_dirs **dirs, char *file_path, int format_option, t_flags flags)
+void get_file_info(t_files **curr_file, t_dirs **dirs, char *file_path, int format_option, t_flg flags)
 {
   char buff[256];
   struct stat f;
@@ -158,7 +158,7 @@ void get_file_info(t_files **curr_file, t_dirs **dirs, char *file_path, int form
   format_handler(&(*dirs)->format, *curr_file, format_option);
 }
 
-void add_file(t_files **curr_file, t_dirs **dirs, t_flags flags, int format_option)
+void add_file(t_files **curr_file, t_dirs **dirs, t_flg flags, int format_option)
 {
   char *dir_name;
   char *file_path;
@@ -177,7 +177,7 @@ void add_file(t_files **curr_file, t_dirs **dirs, t_flags flags, int format_opti
   (*dirs)->has_valid_files = 1;
   MCH(((*curr_file)->modes = ft_strnew(11)));
   get_file_info(curr_file, dirs, file_path, format_option, flags);
-  if ((flags & LONG_LISTING_FLAG) && !(*curr_file)->ISDR_info)
+  if ((flags & LLFG) && !(*curr_file)->ISDR_info)
   {
     if ((*dirs)->status == ISDR)
       (*dirs)->total_blocks += (*curr_file)->f.st_blocks;
@@ -189,7 +189,7 @@ void add_file(t_files **curr_file, t_dirs **dirs, t_flags flags, int format_opti
     if (file_name_len > (*dirs)->max_file_len)
       (*dirs)->max_file_len = file_name_len;
   }
-  if (S_ISDIR((*curr_file)->f.st_mode) && (flags & RECURSIVE_FLAG) && !ft_strequ((*curr_file)->name, "..") && !ft_strequ((*curr_file)->name, ".")) {
+  if (S_ISDIR((*curr_file)->f.st_mode) && (flags & REFG) && !ft_strequ((*curr_file)->name, "..") && !ft_strequ((*curr_file)->name, ".")) {
     set_dir(ft_pathjoin(dir_name, (*curr_file)->name), &((*dirs)->sub_dirs), (*curr_file)->name, flags);
   }
 }
@@ -209,7 +209,7 @@ char *get_entry_name(char *path)
   return (path);
 }
 
-t_files *file_handler(t_dirs *dirs, t_flags flags) {
+t_files *file_handler(t_dirs *dirs, t_flg flags) {
   DIR   *dir;
   struct dirent *sd;
   t_files *files;
@@ -228,9 +228,9 @@ t_files *file_handler(t_dirs *dirs, t_flags flags) {
   format_option = INIF;
   while ((sd = readdir(dir)))
   {
-    if (flags & HIDE_CURR_AND_PREV_DIRS && !(flags & ALL_FLAG) && (ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, "..")))
+    if (flags & HCPD && !(flags & ALLG) && (ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, "..")))
       continue ;
-    if (!(flags & ALL_FLAG) && !(flags & HIDE_CURR_AND_PREV_DIRS) && sd->d_name[0] == '.')
+    if (!(flags & ALLG) && !(flags & HCPD) && sd->d_name[0] == '.')
       continue ;
     MCH(((*tmp = (t_files *)ft_memalloc(sizeof(t_files)))));
     file_name = sd->d_name;

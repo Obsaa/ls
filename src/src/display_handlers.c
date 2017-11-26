@@ -1,6 +1,6 @@
 #include "../inc/ft_ls.h"
 
-void date_display_handler(t_frmt format, t_date date, t_flags flags)
+void date_display_handler(t_frmt format, t_dt date, t_flg flags)
 {
   struct timeval tp;
   unsigned long long curr_date;
@@ -11,11 +11,11 @@ void date_display_handler(t_frmt format, t_date date, t_flags flags)
   curr_date = (unsigned long long)tp.tv_sec;
   six_months = 15778476;
   t = date.mtv_sec;
-  if (flags & CREATION_DATE_SORT)
+  if (flags & CRDS)
     t = date.birthtv_sec;
-  if (flags & LAST_ACCESS_DATE_SORT)
+  if (flags & LADS)
     t = date.atv_sec;
-  if (flags & LAST_STATUS_CHANGE_SORT)
+  if (flags & LSCS)
     t = date.ctv_sec;
   if (t <= (curr_date - six_months) || t >= (curr_date + six_months))
     print_handler(1, "%s ", format.dtyr, date.year);
@@ -26,9 +26,9 @@ void date_display_handler(t_frmt format, t_date date, t_flags flags)
   }
 }
 
-void display_file_name(struct stat f, char *name, t_flags flags)
+void display_file_name(struct stat f, char *name, t_flg flags)
 {
-  if (!(flags & COLORED_OUTPUT))
+  if (!(flags & COOP))
     return (print_handler(1, "%s", 0, name));
   if (S_ISDIR(f.st_mode))
     print_handler(1, CBCY "%s" CRES, 0, name);
@@ -48,17 +48,17 @@ void display_file_name(struct stat f, char *name, t_flags flags)
     print_handler(1, "%s", 0, name);
 }
 
-void long_listing_display(t_frmt format, t_files *file, int has_chr_or_blk, t_flags flags) {
+void long_listing_display(t_frmt format, t_files *file, int has_chr_or_blk, t_flg flags) {
   print_handler(1, "%s ", 0, file->modes);
   print_handler(1, "%ld ", format.link, ft_itoa(file->link));
-  if (!(flags & SUPRESS_OWNER))
+  if (!(flags & SUPO))
   {
-    if (file->owner && !(flags & DISPLAY_UID_AND_GID))
+    if (file->owner && !(flags & DUAG))
       lprint_handler(1, "%s  ", format.owner, file->owner);
     else
       lprint_handler(1, "%d  ", format.usrd, ft_itoa(file->usrd));
   }
-  if (file->group && !(flags & DISPLAY_UID_AND_GID))
+  if (file->group && !(flags & DUAG))
     lprint_handler(1, "%s  ", format.group, file->group);
   else
     lprint_handler(1, "%d  ", format.grpi, ft_itoa(file->grpi));
@@ -176,13 +176,13 @@ void nondir_column_display(t_dirs *dirs, int should_separate)
     print_handler(1, "\n", 0, NULL);
 }
 
-void nondir_display(t_dirs *dirs, t_flags flags) {
+void nondir_display(t_dirs *dirs, t_flg flags) {
   t_dirs *tmp;
   int should_separate;
   t_frmt nondir_format;
 
   should_separate = has_dirs(dirs);
-  if (flags & COLUMN_DISPLAY)
+  if (flags & CODI)
     return (nondir_column_display(dirs, should_separate));
   nondir_format = get_nondir_format(&dirs, flags);
   tmp = dirs;
@@ -190,7 +190,7 @@ void nondir_display(t_dirs *dirs, t_flags flags) {
   {
     if (tmp->status == ISND)
     {
-      if (flags & LONG_LISTING_FLAG)
+      if (flags & LLFG)
         long_listing_display(nondir_format, tmp->self, tmp->has_chr_or_blk, flags);
       else
       {
@@ -206,7 +206,7 @@ void nondir_display(t_dirs *dirs, t_flags flags) {
   }
 }
 
-void dir_display(t_dirs *head, t_dirs *dirs, t_flags flags) {
+void dir_display(t_dirs *head, t_dirs *dirs, t_flg flags) {
   t_entries entries;
   t_etarget target;
 
@@ -218,9 +218,9 @@ void dir_display(t_dirs *head, t_dirs *dirs, t_flags flags) {
     return (error_handler(FAR, target));
     free(target.file);
   }
-  if ((flags & LONG_LISTING_FLAG) && dirs->files && dirs->has_valid_files)
+  if ((flags & LLFG) && dirs->files && dirs->has_valid_files)
     print_handler(1, "total %d\n", 0, ft_itoa(dirs->total_blocks));
-  if (flags & COLUMN_DISPLAY)
+  if (flags & CODI)
   {
     entries.files = dirs->files;
     if (dirs->file_count)
@@ -249,7 +249,7 @@ void dir_display(t_dirs *head, t_dirs *dirs, t_flags flags) {
       free(target.file);
     }
     else {
-      if (flags & LONG_LISTING_FLAG)
+      if (flags & LLFG)
         long_listing_display(dirs->format, dirs->files, dirs->has_chr_or_blk, flags);
       else
       {
@@ -263,7 +263,7 @@ void dir_display(t_dirs *head, t_dirs *dirs, t_flags flags) {
   }
 }
 
-void display_handler(t_dirs *head, t_dirs *dirs, t_flags flags, int target) {
+void display_handler(t_dirs *head, t_dirs *dirs, t_flg flags, int target) {
   t_etarget etarget;
   t_dirs  *tmp;
 
@@ -286,12 +286,12 @@ void display_handler(t_dirs *head, t_dirs *dirs, t_flags flags, int target) {
     dir_display(head, dirs, flags);
 }
 
-void ft_display(t_dirs *dirs, t_flags flags)
+void ft_display(t_dirs *dirs, t_flg flags)
 {
   t_dirs *tmp;
 
   display_handler(NULL, dirs, flags, ISNE);
-  if (flags & REVERSE_FLAG)
+  if (flags & REVF)
     reverse_dirs(&dirs);
   display_handler(NULL, dirs, flags, ISND);
   tmp = dirs;
@@ -300,7 +300,7 @@ void ft_display(t_dirs *dirs, t_flags flags)
     if (tmp->status == ISDR)
     {
       tmp->files = file_handler(tmp, flags);
-      if (flags & REVERSE_FLAG)
+      if (flags & REVF)
         reverse_files(&tmp->files);
       display_handler(dirs, tmp, flags, ISDR);
       tmp->next = subdir_handler(tmp->next, &(tmp->sub_dirs), flags);

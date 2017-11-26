@@ -10,13 +10,13 @@ void move_file(t_files **destRef, t_files **sourceRef)
   *destRef = new;
 }
 
-void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_flags flags)
+void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_flg flags)
 {
   int comparison;
 
   // Try to do '<'' instead of '<=' to see if it would improve speed
   comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
-  if (flags & MODIFICATION_DATE_SORT)
+  if (flags & MDST)
   {
     comparison = (*a)->date.mtv_sec >= (*b)->date.mtv_sec;
     if ((*a)->date.mtv_sec == (*b)->date.mtv_sec)
@@ -25,7 +25,7 @@ void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_fla
       if ((*a)->date.mtv_nsec == (*b)->date.mtv_nsec)
         comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
     }
-    if (flags & CREATION_DATE_SORT)
+    if (flags & CRDS)
     {
       comparison = (*a)->date.birthtv_sec >= (*b)->date.birthtv_sec;
       if ((*a)->date.birthtv_sec == (*b)->date.birthtv_sec)
@@ -35,7 +35,7 @@ void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_fla
           comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
       }
     }
-    else if (flags & LAST_ACCESS_DATE_SORT)
+    else if (flags & LADS)
     {
       comparison = (*a)->date.atv_sec >= (*b)->date.atv_sec;
       if ((*a)->date.atv_sec == (*b)->date.atv_sec)
@@ -45,7 +45,7 @@ void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_fla
           comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
       }
     }
-    else if (flags & LAST_STATUS_CHANGE_SORT)
+    else if (flags & LSCS)
     {
       comparison = (*a)->date.ctv_sec >= (*b)->date.ctv_sec;
       if ((*a)->date.ctv_sec == (*b)->date.ctv_sec)
@@ -56,7 +56,7 @@ void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_fla
       }
     }
   }
-  else if (flags & FILE_SIZE_SORT)
+  else if (flags & FISS)
   {
     comparison = (*a)->size >= (*b)->size;
     if ((*a)->size == (*b)->size)
@@ -65,7 +65,7 @@ void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_fla
   move_file(tmp, comparison ? a : b);
 }
 
-t_files *merge_splitted_files(t_files *a, t_files *b, t_flags flags)
+t_files *merge_splitted_files(t_files *a, t_files *b, t_flg flags)
 {
   t_files *res;
   t_files **tmp;
@@ -111,7 +111,7 @@ void split_file(t_files *sourceRef, t_files **frontRef, t_files **backRef)
   slow->next = NULL;
 }
 
-void file_sort(t_files **files, t_flags flags)
+void file_sort(t_files **files, t_flg flags)
 {
   t_files *head;
   t_files *a;

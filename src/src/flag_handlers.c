@@ -1,89 +1,89 @@
 #include "../inc/ft_ls.h"
 
-void long_option_flag(char *option, t_flags *flags) {
+void long_option_flag(char *option, t_flg *flags) {
   t_etarget target;
 
   if (ft_strequ(option, "help"))
     help_handler();
   else if (ft_strequ(option, "recursive"))
-    *flags |= RECURSIVE_FLAG;
+    *flags |= REFG;
   else if (ft_strequ(option, "all"))
-    *flags |= ALL_FLAG;
+    *flags |= ALLG;
   else if (ft_strequ(option, "reverse"))
-    *flags |= REVERSE_FLAG;
+    *flags |= REVF;
   else {
     target.flag = '-';
     error_handler(FER, target);
   }
 }
 
-void display_flag_handler(t_flags *flags, char f)
+void display_flag_handler(t_flg *flags, char f)
 {
   if (f == '1')
   {
-    if (*flags & COLUMN_DISPLAY)
-      *flags &= ~COLUMN_DISPLAY;
-    if (*flags & LONG_LISTING_FLAG)
-      *flags &= ~LONG_LISTING_FLAG;
-    *flags |= ONE_ENTRY_PER_LINE;
+    if (*flags & CODI)
+      *flags &= ~CODI;
+    if (*flags & LLFG)
+      *flags &= ~LLFG;
+    *flags |= OEPL;
   }
   else if (f == 'l' || f == 'g')
   {
     if (f == 'g')
-      *flags |= SUPRESS_OWNER;
-    if (*flags & COLUMN_DISPLAY)
-      *flags &= ~COLUMN_DISPLAY;
-    if (*flags & ONE_ENTRY_PER_LINE)
-      *flags &= ~ONE_ENTRY_PER_LINE;
-    *flags |= LONG_LISTING_FLAG;
+      *flags |= SUPO;
+    if (*flags & CODI)
+      *flags &= ~CODI;
+    if (*flags & OEPL)
+      *flags &= ~OEPL;
+    *flags |= LLFG;
   }
   else
   {
-    if (*flags & ONE_ENTRY_PER_LINE)
-      *flags &= ~ONE_ENTRY_PER_LINE;
-    if (*flags & LONG_LISTING_FLAG)
-      *flags &= ~LONG_LISTING_FLAG;
-    *flags |= COLUMN_DISPLAY;
+    if (*flags & OEPL)
+      *flags &= ~OEPL;
+    if (*flags & LLFG)
+      *flags &= ~LLFG;
+    *flags |= CODI;
   }
 }
 
-void sort_flag_handler(t_flags *flags, char f)
+void sort_flag_handler(t_flg *flags, char f)
 {
-  if (f == 't' && !(*flags & FILE_SIZE_SORT))
-    *flags |= MODIFICATION_DATE_SORT;
+  if (f == 't' && !(*flags & FISS))
+    *flags |= MDST;
   else if (f == 'U')
   {
-    if (*flags & LAST_ACCESS_DATE_SORT)
-      *flags &= ~LAST_ACCESS_DATE_SORT;
-    if (*flags & LAST_STATUS_CHANGE_SORT)
-      *flags &= ~LAST_STATUS_CHANGE_SORT;
-    *flags |= CREATION_DATE_SORT;
+    if (*flags & LADS)
+      *flags &= ~LADS;
+    if (*flags & LSCS)
+      *flags &= ~LSCS;
+    *flags |= CRDS;
   }
   else if (f == 'u')
   {
-    if (*flags & CREATION_DATE_SORT)
-      *flags &= ~CREATION_DATE_SORT;
-    if (*flags & LAST_STATUS_CHANGE_SORT)
-      *flags &= ~LAST_STATUS_CHANGE_SORT;
-    *flags |= LAST_ACCESS_DATE_SORT;
+    if (*flags & CRDS)
+      *flags &= ~CRDS;
+    if (*flags & LSCS)
+      *flags &= ~LSCS;
+    *flags |= LADS;
   }
   else if (f == 'c')
   {
-    if (*flags & CREATION_DATE_SORT)
-      *flags &= ~CREATION_DATE_SORT;
-    if (*flags & LAST_ACCESS_DATE_SORT)
-      *flags &= ~LAST_ACCESS_DATE_SORT;
-    *flags |= LAST_STATUS_CHANGE_SORT;
+    if (*flags & CRDS)
+      *flags &= ~CRDS;
+    if (*flags & LADS)
+      *flags &= ~LADS;
+    *flags |= LSCS;
   }
   else
   {
-    if (*flags & MODIFICATION_DATE_SORT)
-      *flags &= ~MODIFICATION_DATE_SORT;
-    *flags |= FILE_SIZE_SORT;
+    if (*flags & MDST)
+      *flags &= ~MDST;
+    *flags |= FISS;
   }
 }
 
-void set_flag(char *arg, t_flags *flags) {
+void set_flag(char *arg, t_flg *flags) {
   int i;
   t_etarget target;
 
@@ -92,17 +92,17 @@ void set_flag(char *arg, t_flags *flags) {
   i = 0;
   while (arg[++i]) {
     if (arg[i] == 'R')
-      *flags |= RECURSIVE_FLAG;
+      *flags |= REFG;
     else if (arg[i] == 'a')
-      *flags |= ALL_FLAG;
+      *flags |= ALLG;
     else if (arg[i] == 'r')
-      *flags |= REVERSE_FLAG;
+      *flags |= REVF;
     else if (arg[i] == 'n')
-      *flags |= DISPLAY_UID_AND_GID;
+      *flags |= DUAG;
     else if (arg[i] == 'A')
-      *flags |= HIDE_CURR_AND_PREV_DIRS;
+      *flags |= HCPD;
     else if (arg[i] == 'G')
-      *flags |= COLORED_OUTPUT;
+      *flags |= COOP;
     else if (arg[i] == 'U' || arg[i] == 't' || arg[i] == 'u' || arg[i] == 'c' || arg[i] == 'S')
       sort_flag_handler(flags, arg[i]);
     else if (arg[i] == '1' || arg[i] == 'l' || arg[i] == 'C' || arg[i] == 'g')
@@ -114,11 +114,11 @@ void set_flag(char *arg, t_flags *flags) {
   }
 }
 
-int flag_handler(char **args, t_flags *flags) {
+int flag_handler(char **args, t_flg *flags) {
   int i;
 
   i = -1;
-  *flags |= COLUMN_DISPLAY;  
+  *flags |= CODI;  
   while (args[++i]) {
     if (args[i][0] != '-')
       break;

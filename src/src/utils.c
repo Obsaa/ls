@@ -42,7 +42,7 @@ int has_dirs(t_dirs *dirs)
   return (0);
 }
 
-t_frmt get_nondir_format(t_dirs **dirs, t_flags flags)
+t_frmt get_nondir_format(t_dirs **dirs, t_flg flags)
 {
   t_frmt format;
   t_dirs *tmp;
@@ -55,7 +55,7 @@ t_frmt get_nondir_format(t_dirs **dirs, t_flags flags)
     if (tmp->status == ISND)
     {
       add_file(&tmp->self, &tmp, flags, INIF);
-      if (flags & LONG_LISTING_FLAG)
+      if (flags & LLFG)
         format_handler(&format, tmp->self, format_option);
       format_option = UFOR;
     }

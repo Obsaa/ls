@@ -11,12 +11,12 @@ void move_dir(t_dirs **destRef, t_dirs **sourceRef)
   *destRef = new;
 }
 
-void handle_dir_merge_comparison(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flags flags)
+void handle_dir_merge_comparison(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flg flags)
 {
   int comparison;
 
   comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
-  if (flags & MODIFICATION_DATE_SORT)
+  if (flags & MDST)
   {
     comparison = (*a)->date.mtv_sec >= (*b)->date.mtv_sec;
     if ((*a)->date.mtv_sec == (*b)->date.mtv_sec)
@@ -25,7 +25,7 @@ void handle_dir_merge_comparison(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flags f
       if ((*a)->date.mtv_nsec == (*b)->date.mtv_nsec)
         comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
     }
-    if (flags & CREATION_DATE_SORT)
+    if (flags & CRDS)
     {
       comparison = (*a)->date.birthtv_sec >= (*b)->date.birthtv_sec;
       if ((*a)->date.birthtv_sec == (*b)->date.birthtv_sec)
@@ -35,7 +35,7 @@ void handle_dir_merge_comparison(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flags f
           comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
       }
     }
-    else if (flags & LAST_ACCESS_DATE_SORT)
+    else if (flags & LADS)
     {
       comparison = (*a)->date.atv_sec >= (*b)->date.atv_sec;
       if ((*a)->date.atv_sec == (*b)->date.atv_sec)
@@ -45,7 +45,7 @@ void handle_dir_merge_comparison(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flags f
           comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
       }
     }
-    else if (flags & LAST_STATUS_CHANGE_SORT)
+    else if (flags & LSCS)
     {
       comparison = (*a)->date.ctv_sec >= (*b)->date.ctv_sec;
       if ((*a)->date.ctv_sec == (*b)->date.ctv_sec)
@@ -56,7 +56,7 @@ void handle_dir_merge_comparison(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flags f
       }
     }
   }
-  else if (flags & FILE_SIZE_SORT)
+  else if (flags & FISS)
   {
     comparison = (*a)->self->size >= (*b)->self->size;
     if ((*a)->self->size == (*b)->self->size)
@@ -65,7 +65,7 @@ void handle_dir_merge_comparison(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flags f
   move_dir(tmp, comparison ? a : b);
 }
 
-t_dirs *merge_splitted_dirs(t_dirs *a, t_dirs *b, t_flags flags)
+t_dirs *merge_splitted_dirs(t_dirs *a, t_dirs *b, t_flg flags)
 {
   t_dirs *res;
   t_dirs **tmp;
@@ -111,7 +111,7 @@ void split_dirs(t_dirs *sourceRef, t_dirs **frontRef, t_dirs **backRef)
   slow->next = NULL;
 }
 
-void dir_sort(t_dirs **dirs, t_flags flags)
+void dir_sort(t_dirs **dirs, t_flg flags)
 {
   t_dirs *head;
   t_dirs *a;

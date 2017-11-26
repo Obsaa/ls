@@ -79,25 +79,25 @@ typedef struct s_frmt {
   int minor;
 } t_frmt;
 
-typedef enum e_flags {
-  LONG_LISTING_FLAG = 1, // -l
-  RECURSIVE_FLAG = 2, // -R
-  ALL_FLAG = 4, // -a
-  REVERSE_FLAG = 8, // -r
-  MODIFICATION_DATE_SORT = 16, // -t
-  DISPLAY_UID_AND_GID = 32, // -n
-  SUPRESS_OWNER = 64, // -g
-  ONE_ENTRY_PER_LINE = 128, // -1
-  COLUMN_DISPLAY = 256, // -C
-  CREATION_DATE_SORT = 512, // -U
-  LAST_ACCESS_DATE_SORT = 1024, // -a
-  LAST_STATUS_CHANGE_SORT = 2048, // -c
-  HIDE_CURR_AND_PREV_DIRS = 4096, // -A
-  FILE_SIZE_SORT = 8192, // -S
-  COLORED_OUTPUT = 16384 // -G
-} t_flags;
+typedef enum s_flg {
+  LLFG = 1, // -l
+  REFG = 2, // -R
+  ALLG = 4, // -a
+  REVF = 8, // -r
+  MDST = 16, // -t
+  DUAG = 32, // -n
+  SUPO = 64, // -g
+  OEPL = 128, // -1
+  CODI = 256, // -C
+  CRDS = 512, // -U
+  LADS = 1024, // -a
+  LSCS = 2048, // -c
+  HCPD = 4096, // -A
+  FISS = 8192, // -S
+  COOP = 16384 // -G
+} t_flg;
 
-typedef struct s_date {
+typedef struct s_dt {
   char *month;
   char *day;
   char *hour;
@@ -111,7 +111,7 @@ typedef struct s_date {
   unsigned long long ctv_nsec;
   unsigned long long birthtv_sec;
   unsigned long long birthtv_nsec;
-} t_date;
+} t_dt;
 
 typedef struct s_files {
   char *modes;
@@ -121,7 +121,7 @@ typedef struct s_files {
   char *group;
   unsigned int grpi;
   long size;
-  t_date date;
+  t_dt date;
   char *name;
   int ISDR_info;
   long major;
@@ -149,7 +149,7 @@ typedef struct s_dirs {
   struct s_dirs *next;
   int file_count;
   int max_file_len;
-  t_date date;
+  t_dt date;
   int is_subdir;
   char *display_name;
   int has_chr_or_blk;
@@ -168,30 +168,30 @@ typedef union u_entries {
 } t_entries;
 
 void help_handler(void);
-t_dirs *dir_handler(char **args, t_flags flags);
-int flag_handler(char **args, t_flags *flags);
+t_dirs *dir_handler(char **args, t_flg flags);
+int flag_handler(char **args, t_flg *flags);
 void error_handler(int err, t_etarget target);
-void display_handler(t_dirs *head, t_dirs *dirs, t_flags flags, int target);
-t_files *file_handler(t_dirs *dirs, t_flags flags);
-void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flags flags);
-void add_file(t_files **curr_file, t_dirs **dirs, t_flags flags, int format_option);
+void display_handler(t_dirs *head, t_dirs *dirs, t_flg flags, int target);
+t_files *file_handler(t_dirs *dirs, t_flg flags);
+void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flg flags);
+void add_file(t_files **curr_file, t_dirs **dirs, t_flg flags, int format_option);
 void add_dir(t_dirs **dirs, t_dirs *new);
 void format_handler(t_frmt *format, t_files *file, int format_option);
 int is_last_dir(t_dirs *dirs);
-t_dirs *subdir_handler(t_dirs *next, t_dirs **sub_dirs, t_flags flags);
+t_dirs *subdir_handler(t_dirs *next, t_dirs **sub_dirs, t_flg flags);
 void memory_handler(void *mem_target, int target);
 int is_last_nondir(t_dirs *dirs);
 int is_only_dir(t_dirs *head);
-void file_sort(t_files **files, t_flags flags);
+void file_sort(t_files **files, t_flg flags);
 int has_dirs(t_dirs *dirs);
-void dir_sort(t_dirs **dirs, t_flags flags);
+void dir_sort(t_dirs **dirs, t_flg flags);
 void reverse_files(t_files **files);
 void reverse_dirs(t_dirs **dirs);
-void ft_display(t_dirs *dirs, t_flags flags);
+void ft_display(t_dirs *dirs, t_flg flags);
 char get_file_entry_type(int mode);
 char third_permission_mode_handler(int mode, int userType);
 char **argument_handler(int ac, char **av);
-t_frmt get_nondir_format(t_dirs **dirs, t_flags flags);
+t_frmt get_nondir_format(t_dirs **dirs, t_flg flags);
 void print_handler(int fd, char *str, int format, char *target);
 void lprint_handler(int fd, char *str, int format, char *target);
 #endif

@@ -1,7 +1,7 @@
 #include "../inc/ft_ls.h"
 
 void long_option_flag(char *option, t_flg *flags) {
-  t_etarget target;
+  t_etar target;
 
   if (ft_strequ(option, "help"))
     help_handler();
@@ -85,7 +85,7 @@ void sort_flag_handler(t_flg *flags, char f)
 
 void set_flag(char *arg, t_flg *flags) {
   int i;
-  t_etarget target;
+  t_etar target;
 
   if (ft_strstartswith(arg, "--") && arg[2])
     return long_option_flag(arg + 2, flags);

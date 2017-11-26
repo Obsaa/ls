@@ -156,21 +156,21 @@ typedef struct s_dirs {
   int hvfi;
 } t_dirs;
 
-typedef union u_etarget {
+typedef union u_etar {
   char flag;
   char *file;
-} t_etarget;
+} t_etar;
 
 
-typedef union u_entries {
+typedef union u_ent {
   t_files *files;
   char **file_names;
-} t_entries;
+} t_ent;
 
 void help_handler(void);
 t_dirs *dir_handler(char **args, t_flg flags);
 int flag_handler(char **args, t_flg *flags);
-void error_handler(int err, t_etarget target);
+void error_handler(int err, t_etar target);
 void display_handler(t_dirs *head, t_dirs *dirs, t_flg flags, int target);
 t_files *file_handler(t_dirs *dirs, t_flg flags);
 void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flg flags);

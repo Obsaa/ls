@@ -116,7 +116,7 @@ void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flg flags) {
 t_dirs *dir_handler(char **args, t_flg flags) {
 	int i;
 	t_dirs *dirs;
-	t_etarget target;
+	t_etar target;
 	t_dirs *tmp;
 
 	dirs = new_dir(".", ISDR, 1, 0, flags);

@@ -81,7 +81,7 @@ void long_listing_display(t_frmt format, t_files *file, int hcob, t_flg flags) {
   print_handler(1, "\n", 0, NULL);
 }
 
-void column_display(t_entries entries, int file_count, int max_file_len, int target)
+void column_display(t_ent entries, int file_count, int max_file_len, int target)
 {
     struct winsize w;
     int cols;
@@ -138,7 +138,7 @@ void nondir_column_display(t_dirs *dirs, int should_separate)
 {
   t_dirs *tmp;
   int file_count;
-  t_entries entries;
+  t_ent entries;
   int max_file_len;
   int i;
 
@@ -207,8 +207,8 @@ void nondir_display(t_dirs *dirs, t_flg flags) {
 }
 
 void dir_display(t_dirs *head, t_dirs *dirs, t_flg flags) {
-  t_entries entries;
-  t_etarget target;
+  t_ent entries;
+  t_etar target;
 
   if (head->next)
       print_handler(1, "%s:\n", 0, dirs->name);
@@ -264,7 +264,7 @@ void dir_display(t_dirs *head, t_dirs *dirs, t_flg flags) {
 }
 
 void display_handler(t_dirs *head, t_dirs *dirs, t_flg flags, int target) {
-  t_etarget etarget;
+  t_etar etarget;
   t_dirs  *tmp;
 
   if (target == ISNE)

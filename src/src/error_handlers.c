@@ -1,6 +1,6 @@
 #include "../inc/ft_ls.h"
 
-void        error_handler(int err, t_etarget target)
+void        error_handler(int err, t_etar target)
 {
     if (err == FER) {
         print_handler(2, "ls: illegal option -- %c\n", 0, &target.flag);

@@ -91,7 +91,7 @@ char *serialize_file_name(char *name, int len)
   return (new);
 }
 
-int has_nonprintable_chars(char *s, int len)
+int hnpc(char *s, int len)
 {
   int i;
 
@@ -137,9 +137,9 @@ void get_file_info(t_files **curr_file, t_dirs **dirs, char *file_path, int form
   {
     (*curr_file)->major = (long)major(f.st_rdev);
     (*curr_file)->minor = (long)minor(f.st_rdev);
-    (*curr_file)->is_chr_or_blk = 1;
-    if (!(*dirs)->has_chr_or_blk)
-      (*dirs)->has_chr_or_blk = 1;
+    (*curr_file)->iscbk = 1;
+    if (!(*dirs)->hcob)
+      (*dirs)->hcob = 1;
   }
   if (S_ISLNK(f.st_mode))
   {
@@ -147,11 +147,11 @@ void get_file_info(t_files **curr_file, t_dirs **dirs, char *file_path, int form
     int link_len = 0;
     if ((link_len = readlink(file_path, buff, 256)) == -1)
       exit(2);
-    if (has_nonprintable_chars(buff, link_len)) {
-      MCH(((*curr_file)->linked_to = serialize_file_name(buff, link_len)));
+    if (hnpc(buff, link_len)) {
+      MCH(((*curr_file)->lnkdt = serialize_file_name(buff, link_len)));
     }
     else {
-      MCH(((*curr_file)->linked_to = ft_strndup(buff, link_len)));
+      MCH(((*curr_file)->lnkdt = ft_strndup(buff, link_len)));
     }
   }
   file_date_handler(&((*curr_file)->date), f, flags);
@@ -165,7 +165,7 @@ void add_file(t_files **curr_file, t_dirs **dirs, t_flg flags, int format_option
   int file_name_len;
 
   dir_name = (*dirs)->name;
-  file_path = (*curr_file)->ISDR_info ? (*curr_file)->name : ft_pathjoin(dir_name, (*curr_file)->name);
+  file_path = (*curr_file)->isdin ? (*curr_file)->name : ft_pathjoin(dir_name, (*curr_file)->name);
   if (lstat(file_path, &(*curr_file)->f) < 0)
   {
     if (errno == ENOENT)
@@ -174,13 +174,13 @@ void add_file(t_files **curr_file, t_dirs **dirs, t_flg flags, int format_option
       (*curr_file)->status = ISUR;
     return ;
   }
-  (*dirs)->has_valid_files = 1;
+  (*dirs)->hvfi = 1;
   MCH(((*curr_file)->modes = ft_strnew(11)));
   get_file_info(curr_file, dirs, file_path, format_option, flags);
-  if ((flags & LLFG) && !(*curr_file)->ISDR_info)
+  if ((flags & LLFG) && !(*curr_file)->isdin)
   {
     if ((*dirs)->status == ISDR)
-      (*dirs)->total_blocks += (*curr_file)->f.st_blocks;
+      (*dirs)->tobl += (*curr_file)->f.st_blocks;
   }
   else
   {
@@ -190,7 +190,7 @@ void add_file(t_files **curr_file, t_dirs **dirs, t_flg flags, int format_option
       (*dirs)->max_file_len = file_name_len;
   }
   if (S_ISDIR((*curr_file)->f.st_mode) && (flags & REFG) && !ft_strequ((*curr_file)->name, "..") && !ft_strequ((*curr_file)->name, ".")) {
-    set_dir(ft_pathjoin(dir_name, (*curr_file)->name), &((*dirs)->sub_dirs), (*curr_file)->name, flags);
+    set_dir(ft_pathjoin(dir_name, (*curr_file)->name), &((*dirs)->sdirs), (*curr_file)->name, flags);
   }
 }
 
@@ -219,8 +219,8 @@ t_files *file_handler(t_dirs *dirs, t_flg flags) {
 
   if (!(dir = opendir(dirs->name)))
   {
-    dirs->is_unreadable = 1;
-    MCH((dirs->display_name = get_entry_name(dirs->name)));
+    dirs->isunr = 1;
+    MCH((dirs->disna = get_entry_name(dirs->name)));
     return (NULL);
   }
   files = NULL;
@@ -234,9 +234,9 @@ t_files *file_handler(t_dirs *dirs, t_flg flags) {
       continue ;
     MCH(((*tmp = (t_files *)ft_memalloc(sizeof(t_files)))));
     file_name = sd->d_name;
-    if (has_nonprintable_chars(sd->d_name, ft_strlen(sd->d_name))) {
-      (*tmp)->display_name = serialize_file_name(sd->d_name, ft_strlen(sd->d_name));
-      (*tmp)->has_nonprintable_chars = 1;
+    if (hnpc(sd->d_name, ft_strlen(sd->d_name))) {
+      (*tmp)->disna = serialize_file_name(sd->d_name, ft_strlen(sd->d_name));
+      (*tmp)->hnpc = 1;
     }
     (*tmp)->name = ft_strdup(sd->d_name);
     add_file(tmp, &dirs, flags, format_option);

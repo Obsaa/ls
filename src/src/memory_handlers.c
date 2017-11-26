@@ -16,8 +16,8 @@ void free_files(t_files **files)
     free((*files)->date.hour);
     free((*files)->date.minute);
     free((*files)->date.year);
-    if ((*files)->has_nonprintable_chars)
-      free((*files)->display_name);
+    if ((*files)->hnpc)
+      free((*files)->disna);
     ft_memdel((void *)files);
     *files = next;
   }
@@ -31,7 +31,7 @@ void free_dirs(t_dirs **dirs)
   {
     next = (*dirs)->next;
     free((*dirs)->name);
-    free((*dirs)->display_name);
+    free((*dirs)->disna);
     free_files(&((*dirs)->files));
     free_files(&((*dirs)->self));
     ft_memdel((void *)dirs);

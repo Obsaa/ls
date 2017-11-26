@@ -123,17 +123,17 @@ typedef struct s_files {
   long size;
   t_dt date;
   char *name;
-  int ISDR_info;
+  int isdin;
   long major;
   long minor;
-  int is_chr_or_blk;
+  int iscbk;
   int is_link;
-  char *linked_to;
-  int has_nonprintable_chars;
-  char *display_name;
+  char *lnkdt;
+  int hnpc;
+  char *disna;
   int status;
   struct s_files *next;
-  struct stat f; // Since I'm passing this I don't need to do stuffs like is_link or is_chr_or_blk
+  struct stat f; // Since I'm passing this I don't need to do stuffs like is_link or iscbk
 } t_files;
 
 typedef struct s_dirs {
@@ -142,18 +142,18 @@ typedef struct s_dirs {
   t_files *files;
   t_files *self;
   t_frmt format;
-  int       is_default;
-  int       is_unreadable;
-  int       total_blocks;
-  struct s_dirs *sub_dirs;
+  int       isdef;
+  int       isunr;
+  int       tobl;
+  struct s_dirs *sdirs;
   struct s_dirs *next;
   int file_count;
   int max_file_len;
   t_dt date;
-  int is_subdir;
-  char *display_name;
-  int has_chr_or_blk;
-  int has_valid_files;
+  int issub;
+  char *disna;
+  int hcob;
+  int hvfi;
 } t_dirs;
 
 typedef union u_etarget {
@@ -178,7 +178,7 @@ void add_file(t_files **curr_file, t_dirs **dirs, t_flg flags, int format_option
 void add_dir(t_dirs **dirs, t_dirs *new);
 void format_handler(t_frmt *format, t_files *file, int format_option);
 int is_last_dir(t_dirs *dirs);
-t_dirs *subdir_handler(t_dirs *next, t_dirs **sub_dirs, t_flg flags);
+t_dirs *subdir_handler(t_dirs *next, t_dirs **sdirs, t_flg flags);
 void memory_handler(void *mem_target, int target);
 int is_last_nondir(t_dirs *dirs);
 int is_only_dir(t_dirs *head);

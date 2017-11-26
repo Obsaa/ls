@@ -12,7 +12,7 @@
 
 #include "../inc/ft_ls.h"
 
-t_dirs *new_dir(char *path, int status, int is_default, char *subdir_name, t_flg flags)
+t_dirs *new_dir(char *path, int status, int isdef, char *subdir_name, t_flg flags)
 {
 	t_dirs *dir;
 	DIR	*dr;
@@ -42,18 +42,18 @@ t_dirs *new_dir(char *path, int status, int is_default, char *subdir_name, t_flg
 		dir->date.cnsec = (unsigned long long)f.st_ctimespec.tv_nsec;
 		dir->date.bsec = (unsigned long long)f.st_birthtimespec.tv_sec;
 		dir->date.bnsec = (unsigned long long)f.st_birthtimespec.tv_nsec;
-		MCH((dir->self->display_name = ft_strdup(path)));
-		dir->self->ISDR_info = 1;
+		MCH((dir->self->disna = ft_strdup(path)));
+		dir->self->isdin = 1;
 		if (subdir_name)
-			MCH((dir->display_name = ft_strdup(subdir_name)));
+			MCH((dir->disna = ft_strdup(subdir_name)));
 	}
 	dir->status = status;
 	dir->next = NULL;
-	dir->is_default = is_default;
-	dir->is_unreadable = 0;
-	dir->total_blocks = 0;
+	dir->isdef = isdef;
+	dir->isunr = 0;
+	dir->tobl = 0;
 	dir->file_count = 0;
-	dir->has_valid_files = 0;
+	dir->hvfi = 0;
 	dir->max_file_len = 0;
 	return (dir);
 }
@@ -107,7 +107,7 @@ void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flg flags) {
 	if (S_ISLNK(f.st_mode))
 		status = ISLK;
 	new = new_dir(path, status, 0, subdir_name, flags);
-	if (!*dirs || (*dirs)->is_default)
+	if (!*dirs || (*dirs)->isdef)
 		*dirs = new;
 	else
 		add_dir(dirs, new);

@@ -103,14 +103,14 @@ typedef struct s_dt {
   char *hour;
   char *minute;
   char *year;
-  unsigned long long mtv_sec;
-  unsigned long long mtv_nsec;
-  unsigned long long atv_sec;
-  unsigned long long atv_nsec;
-  unsigned long long ctv_sec;
-  unsigned long long ctv_nsec;
-  unsigned long long birthtv_sec;
-  unsigned long long birthtv_nsec;
+  unsigned long long msec;
+  unsigned long long mnsec;
+  unsigned long long asec;
+  unsigned long long ansec;
+  unsigned long long csec;
+  unsigned long long cnsec;
+  unsigned long long bsec;
+  unsigned long long bnsec;
 } t_dt;
 
 typedef struct s_files {

@@ -10,13 +10,13 @@ void date_display_handler(t_frmt format, t_dt date, t_flg flags)
   gettimeofday(&tp, NULL);
   curr_date = (unsigned long long)tp.tv_sec;
   six_months = 15778476;
-  t = date.mtv_sec;
+  t = date.msec;
   if (flags & CRDS)
-    t = date.birthtv_sec;
+    t = date.bsec;
   if (flags & LADS)
-    t = date.atv_sec;
+    t = date.asec;
   if (flags & LSCS)
-    t = date.ctv_sec;
+    t = date.csec;
   if (t <= (curr_date - six_months) || t >= (curr_date + six_months))
     print_handler(1, "%s ", format.dtyr, date.year);
   else

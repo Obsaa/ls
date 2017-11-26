@@ -17,21 +17,21 @@ void file_date_handler(t_dt *date, struct stat f, t_flg flags) {
   char buff[200];
   unsigned long long t;
 
-  date->mtv_sec = (unsigned long long)f.st_mtimespec.tv_sec;
-  date->mtv_nsec = (unsigned long long)f.st_mtimespec.tv_nsec;
-  date->atv_sec = (unsigned long long)f.st_atimespec.tv_sec;
-  date->atv_nsec = (unsigned long long)f.st_atimespec.tv_nsec;
-  date->ctv_sec = (unsigned long long)f.st_ctimespec.tv_sec;
-  date->ctv_nsec = (unsigned long long)f.st_ctimespec.tv_nsec;
-  date->birthtv_sec = (unsigned long long)f.st_birthtimespec.tv_sec;
-  date->birthtv_nsec = (unsigned long long)f.st_birthtimespec.tv_nsec;
-  t = date->mtv_sec;
+  date->msec = (unsigned long long)f.st_mtimespec.tv_sec;
+  date->mnsec = (unsigned long long)f.st_mtimespec.tv_nsec;
+  date->asec = (unsigned long long)f.st_atimespec.tv_sec;
+  date->ansec = (unsigned long long)f.st_atimespec.tv_nsec;
+  date->csec = (unsigned long long)f.st_ctimespec.tv_sec;
+  date->cnsec = (unsigned long long)f.st_ctimespec.tv_nsec;
+  date->bsec = (unsigned long long)f.st_birthtimespec.tv_sec;
+  date->bnsec = (unsigned long long)f.st_birthtimespec.tv_nsec;
+  t = date->msec;
   if (flags & CRDS)
-    t = date->birthtv_sec;
+    t = date->bsec;
   if (flags & LADS)
-    t = date->atv_sec;
+    t = date->asec;
   if (flags & LSCS)
-  t = date->ctv_sec;
+  t = date->csec;
   strftime(buff, 200, "%b", localtime((const long *)&t));
   MCH((date->month = ft_strdup(buff)));
   strftime(buff, 200, "%-d", localtime((const long *)&t));

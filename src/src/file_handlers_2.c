@@ -18,40 +18,40 @@ void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_flg
   comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
   if (flags & MDST)
   {
-    comparison = (*a)->date.mtv_sec >= (*b)->date.mtv_sec;
-    if ((*a)->date.mtv_sec == (*b)->date.mtv_sec)
+    comparison = (*a)->date.msec >= (*b)->date.msec;
+    if ((*a)->date.msec == (*b)->date.msec)
     {
-      comparison = (*a)->date.mtv_nsec >= (*b)->date.mtv_nsec;
-      if ((*a)->date.mtv_nsec == (*b)->date.mtv_nsec)
+      comparison = (*a)->date.mnsec >= (*b)->date.mnsec;
+      if ((*a)->date.mnsec == (*b)->date.mnsec)
         comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
     }
     if (flags & CRDS)
     {
-      comparison = (*a)->date.birthtv_sec >= (*b)->date.birthtv_sec;
-      if ((*a)->date.birthtv_sec == (*b)->date.birthtv_sec)
+      comparison = (*a)->date.bsec >= (*b)->date.bsec;
+      if ((*a)->date.bsec == (*b)->date.bsec)
       {
-        comparison = (*a)->date.birthtv_nsec >= (*b)->date.birthtv_nsec;
-        if ((*a)->date.birthtv_nsec == (*b)->date.birthtv_nsec)
+        comparison = (*a)->date.bnsec >= (*b)->date.bnsec;
+        if ((*a)->date.bnsec == (*b)->date.bnsec)
           comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
       }
     }
     else if (flags & LADS)
     {
-      comparison = (*a)->date.atv_sec >= (*b)->date.atv_sec;
-      if ((*a)->date.atv_sec == (*b)->date.atv_sec)
+      comparison = (*a)->date.asec >= (*b)->date.asec;
+      if ((*a)->date.asec == (*b)->date.asec)
       {
-        comparison = (*a)->date.atv_nsec >= (*b)->date.atv_nsec;
-        if ((*a)->date.atv_nsec == (*b)->date.atv_nsec)
+        comparison = (*a)->date.ansec >= (*b)->date.ansec;
+        if ((*a)->date.ansec == (*b)->date.ansec)
           comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
       }
     }
     else if (flags & LSCS)
     {
-      comparison = (*a)->date.ctv_sec >= (*b)->date.ctv_sec;
-      if ((*a)->date.ctv_sec == (*b)->date.ctv_sec)
+      comparison = (*a)->date.csec >= (*b)->date.csec;
+      if ((*a)->date.csec == (*b)->date.csec)
       {
-        comparison = (*a)->date.ctv_nsec >= (*b)->date.ctv_nsec;
-        if ((*a)->date.ctv_nsec == (*b)->date.ctv_nsec)
+        comparison = (*a)->date.cnsec >= (*b)->date.cnsec;
+        if ((*a)->date.cnsec == (*b)->date.cnsec)
           comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
       }
     }

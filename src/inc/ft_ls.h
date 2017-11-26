@@ -63,21 +63,21 @@
 #define UFOR 2
 #define IDLF 4
 
-typedef struct s_format {
+typedef struct s_frmt {
   int link;
   int owner;
   int group;
-  int fileSize;
-  int date_month;
-  int date_day;
-  int date_hour;
-  int date_minute;
-  int date_year;
-  int user_id;
-  int group_id;
+  int flsz;
+  int dtmn;
+  int dtdy;
+  int dthr;
+  int dmin;
+  int dtyr;
+  int usrd;
+  int grpi;
   int major;
   int minor;
-} t_format;
+} t_frmt;
 
 typedef enum e_flags {
   LONG_LISTING_FLAG = 1, // -l
@@ -117,9 +117,9 @@ typedef struct s_files {
   char *modes;
   long link;
   char *owner;
-  unsigned int user_id;
+  unsigned int usrd;
   char *group;
-  unsigned int group_id;
+  unsigned int grpi;
   long size;
   t_date date;
   char *name;
@@ -141,7 +141,7 @@ typedef struct s_dirs {
   int status;
   t_files *files;
   t_files *self;
-  t_format format;
+  t_frmt format;
   int       is_default;
   int       is_unreadable;
   int       total_blocks;
@@ -176,7 +176,7 @@ t_files *file_handler(t_dirs *dirs, t_flags flags);
 void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flags flags);
 void add_file(t_files **curr_file, t_dirs **dirs, t_flags flags, int format_option);
 void add_dir(t_dirs **dirs, t_dirs *new);
-void format_handler(t_format *format, t_files *file, int format_option);
+void format_handler(t_frmt *format, t_files *file, int format_option);
 int is_last_dir(t_dirs *dirs);
 t_dirs *subdir_handler(t_dirs *next, t_dirs **sub_dirs, t_flags flags);
 void memory_handler(void *mem_target, int target);
@@ -191,7 +191,7 @@ void ft_display(t_dirs *dirs, t_flags flags);
 char get_file_entry_type(int mode);
 char third_permission_mode_handler(int mode, int userType);
 char **argument_handler(int ac, char **av);
-t_format get_nondir_format(t_dirs **dirs, t_flags flags);
+t_frmt get_nondir_format(t_dirs **dirs, t_flags flags);
 void print_handler(int fd, char *str, int format, char *target);
 void lprint_handler(int fd, char *str, int format, char *target);
 #endif

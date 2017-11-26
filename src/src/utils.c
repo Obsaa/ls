@@ -42,9 +42,9 @@ int has_dirs(t_dirs *dirs)
   return (0);
 }
 
-t_format get_nondir_format(t_dirs **dirs, t_flags flags)
+t_frmt get_nondir_format(t_dirs **dirs, t_flags flags)
 {
-  t_format format;
+  t_frmt format;
   t_dirs *tmp;
   int format_option;
 

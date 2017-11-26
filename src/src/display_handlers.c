@@ -1,6 +1,6 @@
 #include "../inc/ft_ls.h"
 
-void date_display_handler(t_format format, t_date date, t_flags flags)
+void date_display_handler(t_frmt format, t_date date, t_flags flags)
 {
   struct timeval tp;
   unsigned long long curr_date;
@@ -18,11 +18,11 @@ void date_display_handler(t_format format, t_date date, t_flags flags)
   if (flags & LAST_STATUS_CHANGE_SORT)
     t = date.ctv_sec;
   if (t <= (curr_date - six_months) || t >= (curr_date + six_months))
-    print_handler(1, "%s ", format.date_year, date.year);
+    print_handler(1, "%s ", format.dtyr, date.year);
   else
   {
-    print_handler(1, "%s:", format.date_hour, date.hour);
-    print_handler(1, "%s ", format.date_minute, date.minute);
+    print_handler(1, "%s:", format.dthr, date.hour);
+    print_handler(1, "%s ", format.dmin, date.minute);
   }
 }
 
@@ -48,7 +48,7 @@ void display_file_name(struct stat f, char *name, t_flags flags)
     print_handler(1, "%s", 0, name);
 }
 
-void long_listing_display(t_format format, t_files *file, int has_chr_or_blk, t_flags flags) {
+void long_listing_display(t_frmt format, t_files *file, int has_chr_or_blk, t_flags flags) {
   print_handler(1, "%s ", 0, file->modes);
   print_handler(1, "%ld ", format.link, ft_itoa(file->link));
   if (!(flags & SUPRESS_OWNER))
@@ -56,21 +56,21 @@ void long_listing_display(t_format format, t_files *file, int has_chr_or_blk, t_
     if (file->owner && !(flags & DISPLAY_UID_AND_GID))
       lprint_handler(1, "%s  ", format.owner, file->owner);
     else
-      lprint_handler(1, "%d  ", format.user_id, ft_itoa(file->user_id));
+      lprint_handler(1, "%d  ", format.usrd, ft_itoa(file->usrd));
   }
   if (file->group && !(flags & DISPLAY_UID_AND_GID))
     lprint_handler(1, "%s  ", format.group, file->group);
   else
-    lprint_handler(1, "%d  ", format.group_id, ft_itoa(file->group_id));
+    lprint_handler(1, "%d  ", format.grpi, ft_itoa(file->grpi));
   if (file->is_chr_or_blk)
   {
     print_handler(1, " %ld, ", format.major, ft_itoa(file->major));
     print_handler(1, "%ld ", format.minor, ft_itoa(file->minor));
   }
   else
-    print_handler(1, "%ld ", has_chr_or_blk ? format.major + format.minor + format.fileSize + 2 : format.fileSize, ft_itoa(file->size));
-  print_handler(1, "%s ", format.date_month, file->date.month);
-  print_handler(1, "%s ", format.date_day, file->date.day);
+    print_handler(1, "%ld ", has_chr_or_blk ? format.major + format.minor + format.flsz + 2 : format.flsz, ft_itoa(file->size));
+  print_handler(1, "%s ", format.dtmn, file->date.month);
+  print_handler(1, "%s ", format.dtdy, file->date.day);
   date_display_handler(format, file->date, flags);
   if (file->has_nonprintable_chars)
     display_file_name(file->f, file->display_name, flags);
@@ -179,7 +179,7 @@ void nondir_column_display(t_dirs *dirs, int should_separate)
 void nondir_display(t_dirs *dirs, t_flags flags) {
   t_dirs *tmp;
   int should_separate;
-  t_format nondir_format;
+  t_frmt nondir_format;
 
   should_separate = has_dirs(dirs);
   if (flags & COLUMN_DISPLAY)

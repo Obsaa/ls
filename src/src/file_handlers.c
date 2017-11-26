@@ -130,8 +130,8 @@ void get_file_info(t_files **curr_file, t_dirs **dirs, char *file_path, int form
   (*curr_file)->link = f.st_nlink;
   (*curr_file)->owner = getpwuid(f.st_uid) ? ft_strdup(getpwuid(f.st_uid)->pw_name) : NULL;
   (*curr_file)->group = getgrgid(f.st_gid) ? ft_strdup(getgrgid(f.st_gid)->gr_name) : NULL;
-  (*curr_file)->user_id = (int)f.st_uid;
-  (*curr_file)->group_id = (int)f.st_gid;
+  (*curr_file)->usrd = (int)f.st_uid;
+  (*curr_file)->grpi = (int)f.st_gid;
   (*curr_file)->size = f.st_size;
   if (S_ISCHR(f.st_mode) || S_ISBLK(f.st_mode))
   {

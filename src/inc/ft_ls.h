@@ -29,39 +29,39 @@
 #include <sys/ioctl.h>
 #include <fcntl.h>
 
-#define MEMCHECK(x) if (!x) exit(2)
+#define MCH(x) if (!x) exit(2)
 
-#define DIRS_MEM 1
-#define ERROR_MEM 2
+#define DMM 1
+#define EMM 2
 
-#define FLAG_ERR 1
-#define FILE_ACCESS_ERR 2
-#define NONEXISTENT_ERR 4
+#define FER 1
+#define FAR 2
+#define NER 4
 
-#define IS_NONEXISTENT 1
-#define IS_NOTDIR 2
-#define IS_DIR 4
-#define IS_LINK 8
-#define IS_UNREADABLE 16
+#define ISNE 1
+#define ISND 2
+#define ISDR 4
+#define ISLK 8
+#define ISUR 16
 
 #define ISUSR 1
 #define ISGRP 2
 #define ISOTH 4
 
-#define ANSI_COLOR_RED        "\x1b[31m"
-#define ANSI_COLOR_GREEN      "\x1b[32m"
-#define ANSI_COLOR_BOLD_GREEN "\x1b[32;1m"
-#define ANSI_COLOR_YELLOW     "\x1b[33m"
-#define ANSI_COLOR_BLUE       "\x1b[34m"
-#define ANSI_COLOR_MAGENTA    "\x1b[35m"
-#define ANSI_COLOR_BOLD_CYAN  "\x1b[96;1m"
-#define ANSI_COLOR_RESET      "\x1b[0m"
+#define CRED  "\x1b[31m"
+#define CGRE  "\x1b[32m"
+#define CBGR  "\x1b[32;1m"
+#define CYEL  "\x1b[33m"
+#define CBLU  "\x1b[34m"
+#define CMAG  "\x1b[35m"
+#define CBCY  "\x1b[96;1m"
+#define CRES  "\x1b[0m"
 
-#define IS_NONPRINTABLE(c) (c <= ' ' && c >= '~')
+#define ISNP(c) (c <= ' ' && c >= '~')
 
-#define INIT_FORMAT 1
-#define UPDATE_FORMAT 2
-#define IDLE_FORMAT 4
+#define INIF 1
+#define UFOR 2
+#define IDLF 4
 
 typedef struct s_format {
   int link;
@@ -123,7 +123,7 @@ typedef struct s_files {
   long size;
   t_date date;
   char *name;
-  int is_dir_info;
+  int ISDR_info;
   long major;
   long minor;
   int is_chr_or_blk;

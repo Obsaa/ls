@@ -33,15 +33,15 @@ void file_date_handler(t_date *date, struct stat f, t_flags flags) {
   if (flags & LAST_STATUS_CHANGE_SORT)
   t = date->ctv_sec;
   strftime(buff, 200, "%b", localtime((const long *)&t));
-  MEMCHECK((date->month = ft_strdup(buff)));
+  MCH((date->month = ft_strdup(buff)));
   strftime(buff, 200, "%-d", localtime((const long *)&t));
-  MEMCHECK((date->day = ft_strdup(buff)));
+  MCH((date->day = ft_strdup(buff)));
   strftime(buff, 200, "%H", localtime((const long *)&t));
-  MEMCHECK((date->hour = ft_strdup(buff)));
+  MCH((date->hour = ft_strdup(buff)));
   strftime(buff, 200, "%M", localtime((const long *)&t));
-  MEMCHECK((date->minute = ft_strdup(buff)));
+  MCH((date->minute = ft_strdup(buff)));
   strftime(buff, 200, "%Y", localtime((const long *)&t));
-  MEMCHECK((date->year = ft_strdup(buff)));
+  MCH((date->year = ft_strdup(buff)));
 }
 
 char extended_attributes_handler(char *file_path)
@@ -75,11 +75,11 @@ char *serialize_file_name(char *name, int len)
   int i;
   char c;
 
-  MEMCHECK((new = ft_strnew(ft_strlen(name))));
+  MCH((new = ft_strnew(ft_strlen(name))));
   i = -1;
   while (i < len && name[i]) {
     c = name[i];
-    if (IS_NONPRINTABLE(name[i]))
+    if (ISNP(name[i]))
     {
       if (name[i] == '\r')
         c = '?';
@@ -97,7 +97,7 @@ int has_nonprintable_chars(char *s, int len)
 
   i = -1;
   while (++i < len && s[i])
-    if (IS_NONPRINTABLE(s[i]))
+    if (ISNP(s[i]))
       return (1);
   return (0);
 }
@@ -148,10 +148,10 @@ void get_file_info(t_files **curr_file, t_dirs **dirs, char *file_path, int form
     if ((link_len = readlink(file_path, buff, 256)) == -1)
       exit(2);
     if (has_nonprintable_chars(buff, link_len)) {
-      MEMCHECK(((*curr_file)->linked_to = serialize_file_name(buff, link_len)));
+      MCH(((*curr_file)->linked_to = serialize_file_name(buff, link_len)));
     }
     else {
-      MEMCHECK(((*curr_file)->linked_to = ft_strndup(buff, link_len)));
+      MCH(((*curr_file)->linked_to = ft_strndup(buff, link_len)));
     }
   }
   file_date_handler(&((*curr_file)->date), f, flags);
@@ -165,21 +165,21 @@ void add_file(t_files **curr_file, t_dirs **dirs, t_flags flags, int format_opti
   int file_name_len;
 
   dir_name = (*dirs)->name;
-  file_path = (*curr_file)->is_dir_info ? (*curr_file)->name : ft_pathjoin(dir_name, (*curr_file)->name);
+  file_path = (*curr_file)->ISDR_info ? (*curr_file)->name : ft_pathjoin(dir_name, (*curr_file)->name);
   if (lstat(file_path, &(*curr_file)->f) < 0)
   {
     if (errno == ENOENT)
-      (*curr_file)->status = IS_NONEXISTENT;
+      (*curr_file)->status = ISNE;
     else if (errno == EACCES)
-      (*curr_file)->status = IS_UNREADABLE;
+      (*curr_file)->status = ISUR;
     return ;
   }
   (*dirs)->has_valid_files = 1;
-  MEMCHECK(((*curr_file)->modes = ft_strnew(11)));
+  MCH(((*curr_file)->modes = ft_strnew(11)));
   get_file_info(curr_file, dirs, file_path, format_option, flags);
-  if ((flags & LONG_LISTING_FLAG) && !(*curr_file)->is_dir_info)
+  if ((flags & LONG_LISTING_FLAG) && !(*curr_file)->ISDR_info)
   {
-    if ((*dirs)->status == IS_DIR)
+    if ((*dirs)->status == ISDR)
       (*dirs)->total_blocks += (*curr_file)->f.st_blocks;
   }
   else
@@ -199,7 +199,7 @@ char *get_entry_name(char *path)
 {
   char **parts;
 
-  MEMCHECK((parts = ft_strsplit(path, '/')));
+  MCH((parts = ft_strsplit(path, '/')));
   int i = -1;
   while (parts[++i])
   {
@@ -220,19 +220,19 @@ t_files *file_handler(t_dirs *dirs, t_flags flags) {
   if (!(dir = opendir(dirs->name)))
   {
     dirs->is_unreadable = 1;
-    MEMCHECK((dirs->display_name = get_entry_name(dirs->name)));
+    MCH((dirs->display_name = get_entry_name(dirs->name)));
     return (NULL);
   }
   files = NULL;
   tmp = &files;
-  format_option = INIT_FORMAT;
+  format_option = INIF;
   while ((sd = readdir(dir)))
   {
     if (flags & HIDE_CURR_AND_PREV_DIRS && !(flags & ALL_FLAG) && (ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, "..")))
       continue ;
     if (!(flags & ALL_FLAG) && !(flags & HIDE_CURR_AND_PREV_DIRS) && sd->d_name[0] == '.')
       continue ;
-    MEMCHECK(((*tmp = (t_files *)ft_memalloc(sizeof(t_files)))));
+    MCH(((*tmp = (t_files *)ft_memalloc(sizeof(t_files)))));
     file_name = sd->d_name;
     if (has_nonprintable_chars(sd->d_name, ft_strlen(sd->d_name))) {
       (*tmp)->display_name = serialize_file_name(sd->d_name, ft_strlen(sd->d_name));
@@ -240,7 +240,7 @@ t_files *file_handler(t_dirs *dirs, t_flags flags) {
     }
     (*tmp)->name = ft_strdup(sd->d_name);
     add_file(tmp, &dirs, flags, format_option);
-    format_option = UPDATE_FORMAT;
+    format_option = UFOR;
     tmp = &((*tmp)->next);
   }
   closedir(dir);

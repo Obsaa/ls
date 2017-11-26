@@ -7,7 +7,7 @@ int is_last_dir(t_dirs *dirs)
   tmp = dirs->next;
   while (tmp)
   {
-    if (tmp->status == IS_DIR)
+    if (tmp->status == ISDR)
       return (0);
     tmp = tmp->next;
   }
@@ -21,7 +21,7 @@ int is_last_nondir(t_dirs *dirs)
   tmp = dirs->next;
   while (tmp)
   {
-    if (tmp->status == IS_NOTDIR)
+    if (tmp->status == ISND)
       return (0);
     tmp = tmp->next;
   }
@@ -35,7 +35,7 @@ int has_dirs(t_dirs *dirs)
   tmp = dirs;
   while (tmp)
   {
-    if (tmp->status == IS_DIR)
+    if (tmp->status == ISDR)
       return (1);
     tmp = tmp->next;
   }
@@ -49,15 +49,15 @@ t_format get_nondir_format(t_dirs **dirs, t_flags flags)
   int format_option;
 
   tmp = *dirs;
-  format_option = INIT_FORMAT;
+  format_option = INIF;
   while (tmp)
   {
-    if (tmp->status == IS_NOTDIR)
+    if (tmp->status == ISND)
     {
-      add_file(&tmp->self, &tmp, flags, INIT_FORMAT);
+      add_file(&tmp->self, &tmp, flags, INIF);
       if (flags & LONG_LISTING_FLAG)
         format_handler(&format, tmp->self, format_option);
-      format_option = UPDATE_FORMAT;
+      format_option = UFOR;
     }
     tmp = tmp->next;
   }

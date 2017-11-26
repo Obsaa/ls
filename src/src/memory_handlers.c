@@ -42,8 +42,8 @@ void free_dirs(t_dirs **dirs)
 
 void memory_handler(void *mem_target, int target)
 {
-  if (target == DIRS_MEM)
+  if (target == DMM)
     free_dirs((t_dirs **)mem_target);
-  else if (target == ERROR_MEM)
+  else if (target == EMM)
     free(mem_target);
 }

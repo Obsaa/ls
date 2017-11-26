@@ -23,6 +23,6 @@ int main(int ac, char **av)
   i = flag_handler(av + 1, &flags);
   dirs = dir_handler(av + i, flags);
   ft_display(dirs, flags);
-  memory_handler(&dirs, DIRS_MEM);
+  memory_handler(&dirs, DMM);
   exit(0);
 }

@@ -18,9 +18,9 @@ void initialize_format(t_format *format)
 }
 
 void format_handler(t_format *format, t_files *file, int format_option) {
-  if (format_option == IDLE_FORMAT)
+  if (format_option == IDLF)
     return ;
-  if (format_option == INIT_FORMAT)
+  if (format_option == INIF)
     initialize_format(format);
   if (format->link < ft_intlen(file->link))
     format->link = ft_intlen(file->link);

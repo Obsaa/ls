@@ -13,7 +13,7 @@ void long_option_flag(char *option, t_flags *flags) {
     *flags |= REVERSE_FLAG;
   else {
     target.flag = '-';
-    error_handler(FLAG_ERR, target);
+    error_handler(FER, target);
   }
 }
 
@@ -109,7 +109,7 @@ void set_flag(char *arg, t_flags *flags) {
       display_flag_handler(flags, arg[i]);
     else {
       target.flag = arg[i];
-      error_handler(FLAG_ERR, target);
+      error_handler(FER, target);
     }
   }
 }

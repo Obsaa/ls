@@ -7,7 +7,7 @@ void print_handler(int fd, char *str, int format, char *target)
 
     if (!format && !target)
         return (ft_putstr_fd(str, fd));
-    MEMCHECK((new = ft_strnew(format + ft_strlen(str) + ft_strlen(target) - 2)));
+    MCH((new = ft_strnew(format + ft_strlen(str) + ft_strlen(target) - 2)));
     int len = (int)ft_strlen(target);
     int i = -1;
     while (str[++i])
@@ -20,13 +20,13 @@ void print_handler(int fd, char *str, int format, char *target)
                 free(tmp);
             }
             tmp = new;
-            MEMCHECK((new = ft_strjoin(new, target)));
+            MCH((new = ft_strjoin(new, target)));
             free(tmp);
             i += (str[i + 1] == 'd' || str[i + 1] == 's') ? 1 : 2;
         }
         else {
             tmp = new;
-            MEMCHECK((new = ft_strjoinch(new, str[i])));
+            MCH((new = ft_strjoinch(new, str[i])));
             free(tmp);
         }
     }
@@ -41,7 +41,7 @@ void lprint_handler(int fd, char *str, int format, char *target)
 
     if (!format && !target)
         return (ft_putstr_fd(str, fd));
-    MEMCHECK((new = ft_strnew(format + ft_strlen(str) + ft_strlen(target) - 2)));
+    MCH((new = ft_strnew(format + ft_strlen(str) + ft_strlen(target) - 2)));
     int len = (int)ft_strlen(target);
     int i = -1;
     while (str[++i])
@@ -49,7 +49,7 @@ void lprint_handler(int fd, char *str, int format, char *target)
         if (str[i] == '%')
         {
             tmp = new;
-            MEMCHECK((new = ft_strjoin(new, target)));
+            MCH((new = ft_strjoin(new, target)));
             free(tmp);
             while (len++ < format) {
                 tmp = new;
@@ -60,7 +60,7 @@ void lprint_handler(int fd, char *str, int format, char *target)
         }
         else {
             tmp = new;
-            MEMCHECK((new = ft_strjoinch(new, str[i])));
+            MCH((new = ft_strjoinch(new, str[i])));
             free(tmp);
         }
     }

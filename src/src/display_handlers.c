@@ -31,19 +31,19 @@ void display_file_name(struct stat f, char *name, t_flags flags)
   if (!(flags & COLORED_OUTPUT))
     return (print_handler(1, "%s", 0, name));
   if (S_ISDIR(f.st_mode))
-    print_handler(1, ANSI_COLOR_BOLD_CYAN "%s" ANSI_COLOR_RESET, 0, name);
+    print_handler(1, CBCY "%s" CRES, 0, name);
   else if (S_ISLNK(f.st_mode))
-    print_handler(1, ANSI_COLOR_MAGENTA "%s" ANSI_COLOR_RESET, 0, name);
+    print_handler(1, CMAG "%s" CRES, 0, name);
   else if (S_ISSOCK(f.st_mode))
-    print_handler(1, ANSI_COLOR_YELLOW "%s" ANSI_COLOR_RESET, 0, name);
+    print_handler(1, CYEL "%s" CRES, 0, name);
   else if (S_ISFIFO(f.st_mode))
-    print_handler(1, ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET, 0, name);
+    print_handler(1, CGRE "%s" CRES, 0, name);
   else if (S_ISBLK(f.st_mode))
-    print_handler(1, ANSI_COLOR_BOLD_GREEN "%s" ANSI_COLOR_RESET, 0, name);
+    print_handler(1, CBGR "%s" CRES, 0, name);
   else if (S_ISCHR(f.st_mode))
-    print_handler(1, ANSI_COLOR_BLUE "%s" ANSI_COLOR_RESET, 0, name);
+    print_handler(1, CBLU "%s" CRES, 0, name);
   else if (S_ISREG(f.st_mode) && f.st_mode & S_IXUSR)
-    print_handler(1, ANSI_COLOR_RED "%s" ANSI_COLOR_RESET, 0, name);
+    print_handler(1, CRED "%s" CRES, 0, name);
   else
     print_handler(1, "%s", 0, name);
 }
@@ -102,9 +102,9 @@ void column_display(t_entries entries, int file_count, int max_file_len, int tar
     if (file_count % cols)
       ++rows;
     arr = NULL;
-    if (target == IS_DIR)
+    if (target == ISDR)
     {
-      MEMCHECK((arr = (char **)ft_memalloc(sizeof(char *) * (file_count + 1))));
+      MCH((arr = (char **)ft_memalloc(sizeof(char *) * (file_count + 1))));
       i = 0;
       while (entries.files)
       {
@@ -123,14 +123,14 @@ void column_display(t_entries entries, int file_count, int max_file_len, int tar
       pos = i;
       while (++j < cols)
       {
-        lprint_handler(1, "%s ", max_file_len, target == IS_DIR ? arr[pos] : entries.file_names[pos]);
+        lprint_handler(1, "%s ", max_file_len, target == ISDR ? arr[pos] : entries.file_names[pos]);
         pos += rows;
         if (pos >= file_count)
           break;
       }
       print_handler(1, "\n", 0, NULL);
     }
-    if (target == IS_DIR)
+    if (target == ISDR)
       free(arr);
 }
 
@@ -147,7 +147,7 @@ void nondir_column_display(t_dirs *dirs, int should_separate)
   tmp = dirs;
   while (tmp)
   {
-    if (tmp->status == IS_NOTDIR)
+    if (tmp->status == ISND)
     {
       ++file_count;
       if ((int)ft_strlen(tmp->self->name) > max_file_len)
@@ -155,12 +155,12 @@ void nondir_column_display(t_dirs *dirs, int should_separate)
     }
     tmp = tmp->next;
   }
-  MEMCHECK((entries.file_names = (char **)ft_memalloc(sizeof(char *) * file_count)));
+  MCH((entries.file_names = (char **)ft_memalloc(sizeof(char *) * file_count)));
   tmp = dirs;
   i = -1;
   while (tmp)
   {
-    if (tmp->status == IS_NOTDIR)
+    if (tmp->status == ISND)
     {
       if (tmp->self->has_nonprintable_chars)
         entries.file_names[++i] = ft_strdup(tmp->self->display_name);
@@ -170,7 +170,7 @@ void nondir_column_display(t_dirs *dirs, int should_separate)
     tmp = tmp->next;
   }
   if (file_count)
-    column_display(entries, file_count, max_file_len, IS_NOTDIR);
+    column_display(entries, file_count, max_file_len, ISND);
   free(entries.file_names);
   if (file_count && should_separate)
     print_handler(1, "\n", 0, NULL);
@@ -188,7 +188,7 @@ void nondir_display(t_dirs *dirs, t_flags flags) {
   tmp = dirs;
   while (tmp)
   {
-    if (tmp->status == IS_NOTDIR)
+    if (tmp->status == ISND)
     {
       if (flags & LONG_LISTING_FLAG)
         long_listing_display(nondir_format, tmp->self, tmp->has_chr_or_blk, flags);
@@ -214,8 +214,8 @@ void dir_display(t_dirs *head, t_dirs *dirs, t_flags flags) {
       print_handler(1, "%s:\n", 0, dirs->name);
   if (dirs->is_unreadable)
   {
-    MEMCHECK((target.file = ft_strdup(dirs->display_name)));
-    return (error_handler(FILE_ACCESS_ERR, target));
+    MCH((target.file = ft_strdup(dirs->display_name)));
+    return (error_handler(FAR, target));
     free(target.file);
   }
   if ((flags & LONG_LISTING_FLAG) && dirs->files && dirs->has_valid_files)
@@ -224,28 +224,28 @@ void dir_display(t_dirs *head, t_dirs *dirs, t_flags flags) {
   {
     entries.files = dirs->files;
     if (dirs->file_count)
-      return (column_display(entries, dirs->file_count, dirs->max_file_len, IS_DIR));
+      return (column_display(entries, dirs->file_count, dirs->max_file_len, ISDR));
   }
   while (dirs->files)
   {
-    if (dirs->files->status == IS_NONEXISTENT) {
+    if (dirs->files->status == ISNE) {
       if (dirs->files->has_nonprintable_chars) {
-        MEMCHECK((target.file = ft_strdup(dirs->files->display_name)));
+        MCH((target.file = ft_strdup(dirs->files->display_name)));
       }
       else {
-        MEMCHECK((target.file = ft_strdup(dirs->files->name)));
+        MCH((target.file = ft_strdup(dirs->files->name)));
       }
-      error_handler(NONEXISTENT_ERR, target);
+      error_handler(NER, target);
       free(target.file);
     }
-    else if (dirs->files->status == IS_UNREADABLE) {
+    else if (dirs->files->status == ISUR) {
       if (dirs->files->has_nonprintable_chars) {
-        MEMCHECK((target.file = ft_strdup(dirs->files->display_name)));
+        MCH((target.file = ft_strdup(dirs->files->display_name)));
       }
       else {
-        MEMCHECK((target.file = ft_strdup(dirs->files->name)));
+        MCH((target.file = ft_strdup(dirs->files->name)));
       }
-      error_handler(FILE_ACCESS_ERR, target);
+      error_handler(FAR, target);
       free(target.file);
     }
     else {
@@ -267,20 +267,20 @@ void display_handler(t_dirs *head, t_dirs *dirs, t_flags flags, int target) {
   t_etarget etarget;
   t_dirs  *tmp;
 
-  if (target == IS_NONEXISTENT)
+  if (target == ISNE)
   {
     tmp = dirs;
     while (tmp) {
-      if (tmp->status == IS_NONEXISTENT)
+      if (tmp->status == ISNE)
       {
-        MEMCHECK((etarget.file = ft_strdup(tmp->name)));
-        error_handler(NONEXISTENT_ERR, etarget);
-        memory_handler(etarget.file, ERROR_MEM);
+        MCH((etarget.file = ft_strdup(tmp->name)));
+        error_handler(NER, etarget);
+        memory_handler(etarget.file, EMM);
       }
       tmp = tmp->next;
     }
   }
-  else if (target == IS_NOTDIR)
+  else if (target == ISND)
       nondir_display(dirs, flags);
   else
     dir_display(head, dirs, flags);
@@ -290,19 +290,19 @@ void ft_display(t_dirs *dirs, t_flags flags)
 {
   t_dirs *tmp;
 
-  display_handler(NULL, dirs, flags, IS_NONEXISTENT);
+  display_handler(NULL, dirs, flags, ISNE);
   if (flags & REVERSE_FLAG)
     reverse_dirs(&dirs);
-  display_handler(NULL, dirs, flags, IS_NOTDIR);
+  display_handler(NULL, dirs, flags, ISND);
   tmp = dirs;
   while (tmp)
   {
-    if (tmp->status == IS_DIR)
+    if (tmp->status == ISDR)
     {
       tmp->files = file_handler(tmp, flags);
       if (flags & REVERSE_FLAG)
         reverse_files(&tmp->files);
-      display_handler(dirs, tmp, flags, IS_DIR);
+      display_handler(dirs, tmp, flags, ISDR);
       tmp->next = subdir_handler(tmp->next, &(tmp->sub_dirs), flags);
       if (!is_last_dir(tmp))
         print_handler(1, "\n", 0, NULL);

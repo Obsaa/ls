@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dir_handlers2.c                                    :+:      :+:    :+:   */
+/*   dir_h2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,7 +22,7 @@ void move_dir(t_dirs **destRef, t_dirs **sourceRef)
   *destRef = new;
 }
 
-void handle_dir_merge_comparison(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flg flags)
+void hdmc(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flg flags)
 {
   int comparison;
 
@@ -95,7 +95,7 @@ t_dirs *merge_splitted_dirs(t_dirs *a, t_dirs *b, t_flg flags)
       *tmp = a;
       break;
     }
-    handle_dir_merge_comparison(&a, &b, tmp, flags); 
+    hdmc(&a, &b, tmp, flags); 
     tmp = &((*tmp)->next);
   }
   return (res);

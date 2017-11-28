@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_h2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/27 13:40:08 by oabdalha          #+#    #+#             */
+/*   Updated: 2017/04/18 04:29:44 by oabdalha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/ft_ls.h"
 
 void move_file(t_files **destRef, t_files **sourceRef)
@@ -10,7 +22,7 @@ void move_file(t_files **destRef, t_files **sourceRef)
   *destRef = new;
 }
 
-void handle_file_merge_comparison(t_files **a, t_files **b, t_files **tmp, t_flg flags)
+void hfmc(t_files **a, t_files **b, t_files **tmp, t_flg flags)
 {
   int comparison;
 
@@ -84,7 +96,7 @@ t_files *merge_splitted_files(t_files *a, t_files *b, t_flg flags)
       *tmp = a;
       break;
     }
-    handle_file_merge_comparison(&a, &b, tmp, flags);
+    hfmc(&a, &b, tmp, flags);
     tmp = &((*tmp)->next);
   }
   return (res);

@@ -14,7 +14,7 @@ int is_last_dir(t_dirs *dirs)
   return (1);
 }
 
-int is_last_nondir(t_dirs *dirs)
+int last_nand(t_dirs *dirs)
 {
   t_dirs *tmp;
 
@@ -42,7 +42,7 @@ int has_dirs(t_dirs *dirs)
   return (0);
 }
 
-t_frmt get_nondir_format(t_dirs **dirs, t_flg flags)
+t_frmt nand_f(t_dirs **dirs, t_flg flags)
 {
   t_frmt format;
   t_dirs *tmp;
@@ -56,7 +56,7 @@ t_frmt get_nondir_format(t_dirs **dirs, t_flg flags)
     {
       add_file(&tmp->self, &tmp, flags, INIF);
       if (flags & LLFG)
-        format_handler(&format, tmp->self, format_option);
+        format_h(&format, tmp->self, format_option);
       format_option = UFOR;
     }
     tmp = tmp->next;

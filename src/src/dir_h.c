@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dir_handlers.c                                     :+:      :+:    :+:   */
+/*   dir_h.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../inc/ft_ls.h"
 
-t_dirs *new_dir(char *path, int status, int isdef, char *subdir_name, t_flg flags)
+t_dirs *new_dir(char *path, int status, int isdef, char *subdnam, t_flg flags)
 {
 	t_dirs *dir;
 	DIR	*dr;
@@ -44,8 +44,8 @@ t_dirs *new_dir(char *path, int status, int isdef, char *subdir_name, t_flg flag
 		dir->date.bnsec = (unsigned long long)f.st_birthtimespec.tv_nsec;
 		MCH((dir->self->disna = ft_strdup(path)));
 		dir->self->isdin = 1;
-		if (subdir_name)
-			MCH((dir->disna = ft_strdup(subdir_name)));
+		if (subdnam)
+			MCH((dir->disna = ft_strdup(subdnam)));
 	}
 	dir->status = status;
 	dir->next = NULL;
@@ -88,7 +88,7 @@ void reverse_dirs(t_dirs **dirs)
 	*dirs = prev;
 }
 
-void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flg flags) {
+void set_dir(char *path, t_dirs **dirs, char *subdnam, t_flg flags) {
 	t_dirs *new;
 	int status;
 	struct stat f;
@@ -106,14 +106,14 @@ void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flg flags) {
 	}
 	if (S_ISLNK(f.st_mode))
 		status = ISLK;
-	new = new_dir(path, status, 0, subdir_name, flags);
+	new = new_dir(path, status, 0, subdnam, flags);
 	if (!*dirs || (*dirs)->isdef)
 		*dirs = new;
 	else
 		add_dir(dirs, new);
 }
 
-t_dirs *dir_handler(char **args, t_flg flags) {
+t_dirs *dir_h(char **args, t_flg flags) {
 	int i;
 	t_dirs *dirs;
 	t_etar target;
@@ -126,7 +126,7 @@ t_dirs *dir_handler(char **args, t_flg flags) {
 			if (args[i][0] == '\0')
 			{
 				MCH((target.file = ft_strdup("fts_open")));
-				error_handler(NER, target);
+				error_h(NER, target);
 				free(target.file);
 				exit(1);
 			}

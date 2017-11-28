@@ -161,26 +161,25 @@ typedef union u_etar {
   char *file;
 } t_etar;
 
-
 typedef union u_ent {
   t_files *files;
   char **file_names;
 } t_ent;
 
-void help_handler(void);
-t_dirs *dir_handler(char **args, t_flg flags);
-int flag_handler(char **args, t_flg *flags);
-void error_handler(int err, t_etar target);
-void display_handler(t_dirs *head, t_dirs *dirs, t_flg flags, int target);
-t_files *file_handler(t_dirs *dirs, t_flg flags);
+void help_h(void);
+t_dirs *dir_h(char **args, t_flg flags);
+int flag_h(char **args, t_flg *flags);
+void error_h(int err, t_etar target);
+void display_h(t_dirs *head, t_dirs *dirs, t_flg flags, int target);
+t_files *file_h(t_dirs *dirs, t_flg flags);
 void set_dir(char *path, t_dirs **dirs, char *subdir_name, t_flg flags);
 void add_file(t_files **curr_file, t_dirs **dirs, t_flg flags, int format_option);
 void add_dir(t_dirs **dirs, t_dirs *new);
-void format_handler(t_frmt *format, t_files *file, int format_option);
+void format_h(t_frmt *format, t_files *file, int format_option);
 int is_last_dir(t_dirs *dirs);
-t_dirs *subdir_handler(t_dirs *next, t_dirs **sdirs, t_flg flags);
-void memory_handler(void *mem_target, int target);
-int is_last_nondir(t_dirs *dirs);
+t_dirs *subdir_h(t_dirs *next, t_dirs **sdirs, t_flg flags);
+void memory_h(void *mem_target, int target);
+int last_nand(t_dirs *dirs);
 int is_only_dir(t_dirs *head);
 void file_sort(t_files **files, t_flg flags);
 int has_dirs(t_dirs *dirs);
@@ -188,10 +187,10 @@ void dir_sort(t_dirs **dirs, t_flg flags);
 void reverse_files(t_files **files);
 void reverse_dirs(t_dirs **dirs);
 void ft_display(t_dirs *dirs, t_flg flags);
-char get_file_entry_type(int mode);
-char third_permission_mode_handler(int mode, int userType);
-char **argument_handler(int ac, char **av);
-t_frmt get_nondir_format(t_dirs **dirs, t_flg flags);
-void print_handler(int fd, char *str, int format, char *target);
-void lprint_handler(int fd, char *str, int format, char *target);
+char file_entry(int mode);
+char perm_mod_h(int mode, int userType);
+char **arg_h(int ac, char **av);
+t_frmt nand_f(t_dirs **dirs, t_flg flags);
+void print_h(int fd, char *str, int format, char *target);
+void lprint_h(int fd, char *str, int format, char *target);
 #endif

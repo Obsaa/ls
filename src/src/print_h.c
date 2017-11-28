@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_h.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/27 13:32:37 by oabdalha          #+#    #+#             */
+/*   Updated: 2017/10/22 17:36:26 by oabdalha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/ft_ls.h"
 
-void print_handler(int fd, char *str, int format, char *target)
+void print_h(int fd, char *str, int format, char *target)
 {
     char *new;
     char *tmp;
@@ -34,7 +46,7 @@ void print_handler(int fd, char *str, int format, char *target)
     free(new);
 }
 
-void lprint_handler(int fd, char *str, int format, char *target)
+void lprint_h(int fd, char *str, int format, char *target)
 {
     char *new;
     char *tmp;

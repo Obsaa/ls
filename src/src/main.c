@@ -20,9 +20,9 @@ int main(int ac, char **av)
 
   flags = 0;
   (void)ac;
-  i = flag_handler(av + 1, &flags);
-  dirs = dir_handler(av + i, flags);
+  i = flag_h(av + 1, &flags);
+  dirs = dir_h(av + i, flags);
   ft_display(dirs, flags);
-  memory_handler(&dirs, DMM);
+  memory_h(&dirs, DMM);
   exit(0);
 }

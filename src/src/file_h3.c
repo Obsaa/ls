@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file_h3.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/27 13:40:08 by oabdalha          #+#    #+#             */
+/*   Updated: 2017/04/18 04:29:44 by oabdalha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/ft_ls.h"
 
-char get_file_entry_type(int mode)
+char file_entry(int mode)
 {
   if (S_ISBLK(mode))
     return ('b');
@@ -54,7 +66,7 @@ char get_correct_character(int mode, int isExec, int isSticky)
     }
 }
 
-char third_permission_mode_handler(int mode, int userType)
+char perm_mod_h(int mode, int userType)
 {
     if (userType == ISUSR)
         return get_correct_character(mode, S_IXUSR, S_ISUID);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_handlers.c                                    :+:      :+:    :+:   */
+/*   file_h.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -104,16 +104,16 @@ int hnpc(char *s, int len)
 
 void file_permission_handler(t_files **curr_file, char *file_path, struct stat f)
 {
-  (*curr_file)->modes[0] = get_file_entry_type(f.st_mode);
+  (*curr_file)->modes[0] = file_entry(f.st_mode);
   (*curr_file)->modes[1] = (f.st_mode & S_IRUSR) ? 'r' : '-';
   (*curr_file)->modes[2] = (f.st_mode & S_IWUSR) ? 'w' : '-';
-  (*curr_file)->modes[3] = third_permission_mode_handler(f.st_mode, ISUSR);
+  (*curr_file)->modes[3] = perm_mod_h(f.st_mode, ISUSR);
   (*curr_file)->modes[4] = (f.st_mode & S_IRGRP) ? 'r' : '-';
   (*curr_file)->modes[5] = (f.st_mode & S_IWGRP) ? 'w' : '-';
-  (*curr_file)->modes[6] = third_permission_mode_handler(f.st_mode, ISGRP);
+  (*curr_file)->modes[6] = perm_mod_h(f.st_mode, ISGRP);
   (*curr_file)->modes[7] = (f.st_mode & S_IROTH) ? 'r' : '-';
   (*curr_file)->modes[8] = (f.st_mode & S_IWOTH) ? 'w' : '-';
-  (*curr_file)->modes[9] = third_permission_mode_handler(f.st_mode, ISOTH);
+  (*curr_file)->modes[9] = perm_mod_h(f.st_mode, ISOTH);
   if ((*curr_file)->modes[1] != '-')
     (*curr_file)->modes[10] = extended_attributes_handler(file_path);
   else
@@ -155,7 +155,7 @@ void get_file_info(t_files **curr_file, t_dirs **dirs, char *file_path, int form
     }
   }
   file_date_handler(&((*curr_file)->date), f, flags);
-  format_handler(&(*dirs)->format, *curr_file, format_option);
+  format_h(&(*dirs)->format, *curr_file, format_option);
 }
 
 void add_file(t_files **curr_file, t_dirs **dirs, t_flg flags, int format_option)
@@ -209,7 +209,7 @@ char *get_entry_name(char *path)
   return (path);
 }
 
-t_files *file_handler(t_dirs *dirs, t_flg flags) {
+t_files *file_h(t_dirs *dirs, t_flg flags) {
   DIR   *dir;
   struct dirent *sd;
   t_files *files;

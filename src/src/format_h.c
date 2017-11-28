@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   format_h.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/27 13:32:37 by oabdalha          #+#    #+#             */
+/*   Updated: 2017/10/21 02:20:26 by oabdalha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/ft_ls.h"
 
 void initialize_format(t_frmt *format)
@@ -17,7 +29,7 @@ void initialize_format(t_frmt *format)
   format->minor = 0;
 }
 
-void format_handler(t_frmt *format, t_files *file, int format_option) {
+void format_h(t_frmt *format, t_files *file, int format_option) {
   if (format_option == IDLF)
     return ;
   if (format_option == INIF)

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   flag_h.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/03/27 13:40:08 by oabdalha          #+#    #+#             */
+/*   Updated: 2017/04/18 04:29:44 by oabdalha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/ft_ls.h"
 
 void long_option_flag(char *option, t_flg *flags) {
   t_etar target;
 
   if (ft_strequ(option, "help"))
-    help_handler();
+    help_h();
   else if (ft_strequ(option, "recursive"))
     *flags |= REFG;
   else if (ft_strequ(option, "all"))
@@ -13,11 +25,11 @@ void long_option_flag(char *option, t_flg *flags) {
     *flags |= REVF;
   else {
     target.flag = '-';
-    error_handler(FER, target);
+    error_h(FER, target);
   }
 }
 
-void display_flag_handler(t_flg *flags, char f)
+void display_flag_h(t_flg *flags, char f)
 {
   if (f == '1')
   {
@@ -47,7 +59,7 @@ void display_flag_handler(t_flg *flags, char f)
   }
 }
 
-void sort_flag_handler(t_flg *flags, char f)
+void sort_flag_h(t_flg *flags, char f)
 {
   if (f == 't' && !(*flags & FISS))
     *flags |= MDST;
@@ -104,17 +116,17 @@ void set_flag(char *arg, t_flg *flags) {
     else if (arg[i] == 'G')
       *flags |= COOP;
     else if (arg[i] == 'U' || arg[i] == 't' || arg[i] == 'u' || arg[i] == 'c' || arg[i] == 'S')
-      sort_flag_handler(flags, arg[i]);
+      sort_flag_h(flags, arg[i]);
     else if (arg[i] == '1' || arg[i] == 'l' || arg[i] == 'C' || arg[i] == 'g')
-      display_flag_handler(flags, arg[i]);
+      display_flag_h(flags, arg[i]);
     else {
       target.flag = arg[i];
-      error_handler(FER, target);
+      error_h(FER, target);
     }
   }
 }
 
-int flag_handler(char **args, t_flg *flags) {
+int flag_h(char **args, t_flg *flags) {
   int i;
 
   i = -1;

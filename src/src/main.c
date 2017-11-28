@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/14 17:33:27 by oabdalha          #+#    #+#             */
-/*   Updated: 2017/04/15 05:32:59 by oabdalha         ###   ########.fr       */
+/*   Created: 2017/05/27 13:32:37 by oabdalha          #+#    #+#             */
+/*   Updated: 2017/10/22 17:48:44 by oabdalha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 int main(int ac, char **av)
 {
-  t_flg flags;
-  int     i;
-  t_dirs *dirs;
+	t_flg flags;
+	int		 i;
+	t_dirs *dirs;
 
-  flags = 0;
-  (void)ac;
-  i = flag_h(av + 1, &flags);
-  dirs = dir_h(av + i, flags);
-  ft_display(dirs, flags);
-  memory_h(&dirs, DMM);
-  exit(0);
+	flags = 0;
+	(void)ac;
+	i = flag_h(av + 1, &flags);
+	dirs = dir_h(av + i, flags);
+	ft_display(dirs, flags);
+	memory_h(&dirs, DMM);
+	exit(0);
 }

@@ -1,13 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_ls.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/27 13:32:37 by oabdalha          #+#    #+#             */
-/*   Updated: 2017/10/18 13:37:50 by oabdalha         ###   ########.fr       */
-/*                                                                            */
+ /* ************************************************************************** */
+/*																																						*/
+/*																												:::			::::::::	 */
+/*	 ft_ls.h																						:+:			:+:		:+:	 */
+/*																										+:+ +:+				 +:+		 */
+/*	 By: oabdalha <oabdalha@student.42.us.org>			+#+	+:+			 +#+				*/
+/*																								+#+#+#+#+#+	 +#+					 */
+/*	 Created: 2017/05/27 13:32:37 by oabdalha					#+#		#+#						 */
+/*	 Updated: 2017/10/18 13:37:50 by oabdalha				 ###	 ########.fr			 */
+/*																																						*/
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
@@ -48,14 +48,14 @@
 #define ISGRP 2
 #define ISOTH 4
 
-#define CRED  "\x1b[31m"
-#define CGRE  "\x1b[32m"
-#define CBGR  "\x1b[32;1m"
-#define CYEL  "\x1b[33m"
-#define CBLU  "\x1b[34m"
-#define CMAG  "\x1b[35m"
-#define CBCY  "\x1b[96;1m"
-#define CRES  "\x1b[0m"
+#define CRED	"\x1b[31m"
+#define CGRE	"\x1b[32m"
+#define CBGR	"\x1b[32;1m"
+#define CYEL	"\x1b[33m"
+#define CBLU	"\x1b[34m"
+#define CMAG	"\x1b[35m"
+#define CBCY	"\x1b[96;1m"
+#define CRES	"\x1b[0m"
 
 #define ISNP(c) (c <= ' ' && c >= '~')
 
@@ -64,106 +64,106 @@
 #define IDLF 4
 
 typedef struct s_frmt {
-  int link;
-  int owner;
-  int group;
-  int flsz;
-  int dtmn;
-  int dtdy;
-  int dthr;
-  int dmin;
-  int dtyr;
-  int usrd;
-  int grpi;
-  int major;
-  int minor;
+	int link;
+	int owner;
+	int group;
+	int flsz;
+	int dtmn;
+	int dtdy;
+	int dthr;
+	int dmin;
+	int dtyr;
+	int usrd;
+	int grpi;
+	int major;
+	int minor;
 } t_frmt;
 
 typedef enum s_flg {
-  LLFG = 1, // -l
-  REFG = 2, // -R
-  ALLG = 4, // -a
-  REVF = 8, // -r
-  MDST = 16, // -t
-  DUAG = 32, // -n
-  SUPO = 64, // -g
-  OEPL = 128, // -1
-  CODI = 256, // -C
-  CRDS = 512, // -U
-  LADS = 1024, // -a
-  LSCS = 2048, // -c
-  HCPD = 4096, // -A
-  FISS = 8192, // -S
-  COOP = 16384 // -G
+	LLFG = 1,		// -l
+	REFG = 2,		// -R
+	ALLG = 4,		// -a
+	REVF = 8,		// -r
+	MDST = 16,		// -t
+	DUAG = 32,		// -n
+	SUPO = 64,		// -g
+	OEPL = 128,		// -1
+	CODI = 256,		// -C
+	CRDS = 512,		// -U
+	LADS = 1024,	// -a
+	LSCS = 2048,	// -c
+	HCPD = 4096,	// -A
+	FISS = 8192,	// -S
+	COOP = 16384	// -G
 } t_flg;
 
 typedef struct s_dt {
-  char *month;
-  char *day;
-  char *hour;
-  char *minute;
-  char *year;
-  unsigned long long msec;
-  unsigned long long mnsec;
-  unsigned long long asec;
-  unsigned long long ansec;
-  unsigned long long csec;
-  unsigned long long cnsec;
-  unsigned long long bsec;
-  unsigned long long bnsec;
+	char *month;
+	char *day;
+	char *hour;
+	char *minute;
+	char *year;
+	unsigned long long msec;
+	unsigned long long mnsec;
+	unsigned long long asec;
+	unsigned long long ansec;
+	unsigned long long csec;
+	unsigned long long cnsec;
+	unsigned long long bsec;
+	unsigned long long bnsec;
 } t_dt;
 
 typedef struct s_files {
-  char *modes;
-  long link;
-  char *owner;
-  unsigned int usrd;
-  char *group;
-  unsigned int grpi;
-  long size;
-  t_dt date;
-  char *name;
-  int isdin;
-  long major;
-  long minor;
-  int iscbk;
-  int is_link;
-  char *lnkdt;
-  int hnpc;
-  char *disna;
-  int status;
-  struct s_files *next;
-  struct stat f; // Since I'm passing this I don't need to do stuffs like is_link or iscbk
+	char *modes;
+	long link;
+	char *owner;
+	unsigned int usrd;
+	char *group;
+	unsigned int grpi;
+	long size;
+	t_dt date;
+	char *name;
+	int isdin;
+	long major;
+	long minor;
+	int iscbk;
+	int is_link;
+	char *lnkdt;
+	int hnpc;
+	char *disna;
+	int status;
+	struct s_files *next;
+	struct stat f;
 } t_files;
 
 typedef struct s_dirs {
-  char *name;
-  int status;
-  t_files *files;
-  t_files *self;
-  t_frmt format;
-  int       isdef;
-  int       isunr;
-  int       tobl;
-  struct s_dirs *sdirs;
-  struct s_dirs *next;
-  int file_count;
-  int max_file_len;
-  t_dt date;
-  int issub;
-  char *disna;
-  int hcob;
-  int hvfi;
+	char *name;
+	int status;
+	t_files *files;
+	t_files *self;
+	t_frmt format;
+	int			 isdef;
+	int			 isunr;
+	int			 tobl;
+	struct s_dirs *sdirs;
+	struct s_dirs *next;
+	int file_count;
+	int max_file_len;
+	t_dt date;
+	int issub;
+	char *disna;
+	int hcob;
+	int hvfi;
 } t_dirs;
 
 typedef union u_etar {
-  char flag;
-  char *file;
+	char flag;
+	char *file;
 } t_etar;
 
 typedef union u_ent {
-  t_files *files;
-  char **file_names;
+	t_files *files;
+	char **file_names;
 } t_ent;
 
 void help_h(void);

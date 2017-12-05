@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dir_h2.c                                           :+:      :+:    :+:   */
+/*   disp_h2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oabdalha <oabdalha@student.42.us.org>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,19 +12,19 @@
 
 #include "../inc/ft_ls.h"
 
-void move_dir(t_dirs **destRef, t_dirs **sourceRef)
+void		move_dir(t_dirs **dest_ref, t_dirs **source_ref)
 {
-	t_dirs *new;
+	t_dirs	*new;
 
-	new = *sourceRef;
-	*sourceRef = (*sourceRef)->next;
-	new->next = *destRef;
-	*destRef = new;
+	new = *source_ref;
+	*source_ref = (*source_ref)->next;
+	new->next = *dest_ref;
+	*dest_ref = new;
 }
 
-void hdmc(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flg flags)
+void		hdmc(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flg flags)
 {
-	int comparison;
+	int		comparison;
 
 	comparison = ft_strcmp((*a)->name, (*b)->name) <= 0;
 	if (flags & MDST)
@@ -76,10 +76,10 @@ void hdmc(t_dirs **a, t_dirs **b, t_dirs **tmp, t_flg flags)
 	move_dir(tmp, comparison ? a : b);
 }
 
-t_dirs *merge_splitted_dirs(t_dirs *a, t_dirs *b, t_flg flags)
+t_dirs		*merge_splitted_dirs(t_dirs *a, t_dirs *b, t_flg flags)
 {
-	t_dirs *res;
-	t_dirs **tmp;
+	t_dirs	*res;
+	t_dirs	**tmp;
 
 	res = NULL;
 	tmp = &res;
@@ -88,26 +88,26 @@ t_dirs *merge_splitted_dirs(t_dirs *a, t_dirs *b, t_flg flags)
 		if (!a)
 		{
 			*tmp = b;
-			break;
+			break ;
 		}
 		else if (!b)
 		{
 			*tmp = a;
-			break;
+			break ;
 		}
-		hdmc(&a, &b, tmp, flags); 
+		hdmc(&a, &b, tmp, flags);
 		tmp = &((*tmp)->next);
 	}
 	return (res);
 }
 
-void split_dirs(t_dirs *sourceRef, t_dirs **frontRef, t_dirs **backRef)
+void		split_dirs(t_dirs *source_ref, t_dirs **front_ref, t_dirs **back_ref)
 {
-	t_dirs *slow;
-	t_dirs *fast;
+	t_dirs	*slow;
+	t_dirs	*fast;
 
-	slow = sourceRef;
-	fast = sourceRef->next;
+	slow = source_ref;
+	fast = source_ref->next;
 	while (fast)
 	{
 		fast = fast->next;
@@ -117,16 +117,16 @@ void split_dirs(t_dirs *sourceRef, t_dirs **frontRef, t_dirs **backRef)
 			fast = fast->next;
 		}
 	}
-	*frontRef = sourceRef;
-	*backRef = slow->next;
+	*front_ref = source_ref;
+	*back_ref = slow->next;
 	slow->next = NULL;
 }
 
-void dir_sort(t_dirs **dirs, t_flg flags)
+void		dir_sort(t_dirs **dirs, t_flg flags)
 {
-	t_dirs *head;
-	t_dirs *a;
-	t_dirs *b;
+	t_dirs	*head;
+	t_dirs	*a;
+	t_dirs	*b;
 
 	head = *dirs;
 	if (!head || !head->next)
